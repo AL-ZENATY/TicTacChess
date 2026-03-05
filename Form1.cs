@@ -5,6 +5,15 @@ namespace TicTacChess
     public partial class Form1 : Form
     {
         Board board = new Board();
+
+        private bool setupPhase = true;
+        private string[] whiteToPlace = { "WQ", "WR", "WN" };
+        private string[] blackToPlace = { "BQ", "BR", "BN" };
+
+        private int whiteIndex = 0;
+        private int blackIndex = 0;
+
+        private bool placingWhite = true; // true = white placing, false = black placing
         public Form1()
         {
             InitializeComponent();
@@ -18,17 +27,68 @@ namespace TicTacChess
             int row = int.Parse(parts[0]);
             int col = int.Parse(parts[1]);
 
-            // if empty, place an X, else clear it (simple toggle)
-            if (board.Squares[row, col] == "")
-                board.Squares[row, col] = "X";
-            else
-                board.Squares[row, col] = "";
+            if (setupPhase)
+            {
+                // Rule: must click empty square
+                if (board.Squares[row, col] != "")
+                {
+                    lblStatusZy.Text = "That square is already taken.";
+                    return;
+                }
 
-            // update the UI square text to match the board state
-            btn.Text = board.Squares[row, col];
+                // Rule: white bottom row only (row 2), black top row only (row 0)
+                if (placingWhite && row != 2)
+                {
+                    lblStatusZy.Text = "White must place in the bottom row.";
+                    return;
+                }
+                if (!placingWhite && row != 0)
+                {
+                    lblStatusZy.Text = "Black must place in the top row.";
+                    return;
+                }
 
-            lblStatusZy.Text = $"Square ({row},{col}) = '{board.Squares[row, col]}'";
+                // Place next piece
+                if (placingWhite)
+                {
+                    string piece = whiteToPlace[whiteIndex];
+                    board.Squares[row, col] = piece;
+                    btn.Text = piece;
+
+                    whiteIndex++;
+                    if (whiteIndex >= whiteToPlace.Length)
+                    {
+                        placingWhite = false;
+                        lblStatusZy.Text = "White done. Now place Black pieces (top row).";
+                    }
+                    else
+                    {
+                        lblStatusZy.Text = $"Placed {piece}. Place next White piece.";
+                    }
+                }
+                else
+                {
+                    string piece = blackToPlace[blackIndex];
+                    board.Squares[row, col] = piece;
+                    btn.Text = piece;
+
+                    blackIndex++;
+                    if (blackIndex >= blackToPlace.Length)
+                    {
+                        setupPhase = false;
+                        lblStatusZy.Text = "Setup complete. Game phase starts!";
+                    }
+                    else
+                    {
+                        lblStatusZy.Text = $"Placed {piece}. Place next Black piece.";
+                    }
+                }
+
+                return;
+            }
+
+            // Game phase (for now just a message)
+            lblStatusZy.Text = $"Game: clicked ({row},{col})";
         }
-
     }
 }
