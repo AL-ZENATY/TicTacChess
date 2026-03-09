@@ -13,6 +13,11 @@ namespace TicTacChess
         private int whiteIndex = 0;
         private int blackIndex = 0;
 
+        private int selectedRow = -1;
+        private int selectedCol = -1;
+
+        private string currentPlayer = "W";
+
         private bool placingWhite = true; // true = white placing, false = black placing
         public Form1()
         {
@@ -87,8 +92,36 @@ namespace TicTacChess
                 return;
             }
 
-            // Game phase (for now just a message)
-            lblStatusZy.Text = $"Game: clicked ({row},{col})";
+            // If nothing selected yet
+            if (selectedRow == -1)
+            {
+                string piece = board.Squares[row, col];
+
+                if (piece == "")
+                {
+                    lblStatusZy.Text = "Select a piece first.";
+                    return;
+                }
+
+                if (!piece.StartsWith(currentPlayer))
+                {
+                    lblStatusZy.Text = "That is not your piece.";
+                    return;
+                }
+
+                selectedRow = row;
+                selectedCol = col;
+
+                lblStatusZy.Text = $"Selected piece at ({row},{col})";
+            }
+            else
+            {
+                lblStatusZy.Text = $"Move from ({selectedRow},{selectedCol}) to ({row},{col})";
+
+                // Reset selection for now
+                selectedRow = -1;
+                selectedCol = -1;
+            }
         }
     }
 }
