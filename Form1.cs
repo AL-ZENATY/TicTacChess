@@ -19,6 +19,10 @@ namespace TicTacChess
         private string currentPlayer = "W";
 
         private bool placingWhite = true; // true = white placing, false = black placing
+
+        private bool winCheckActive = false; // set to true after setup phase to enable win condition checks
+
+        private bool gameOver = false; // set to true when a win condition is met to prevent further moves
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +35,12 @@ namespace TicTacChess
             string[] parts = btn.Tag.ToString().Split(',');
             int row = int.Parse(parts[0]);
             int col = int.Parse(parts[1]);
+
+            if (gameOver)
+            {
+                lblStatusZy.Text = "The game is over.";
+                return;
+            }
 
             if (setupPhase)
             {
@@ -52,6 +62,7 @@ namespace TicTacChess
                     lblStatusZy.Text = "Black must place in the top row.";
                     return;
                 }
+
 
                 // Place next piece
                 if (placingWhite)
@@ -203,7 +214,26 @@ namespace TicTacChess
                     currentPlayer = "W";
                 }
 
-                lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {currentPlayer}'s turn.";
+                winCheckActive = true;
+
+                string movedPlayer = selectedPiece.Substring(0, 1);
+                if (CheckWin(movedPlayer))
+                {
+                    gameOver = true;
+
+                    if (movedPlayer == "W")
+                    {
+                        lblStatusZy.Text = "White wins!";
+                    }
+                    else
+                    {
+                        lblStatusZy.Text = "Black wins!";
+                    }
+                }
+                else
+                {
+                    lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {currentPlayer}'s turn.";
+                }
 
                 selectedRow = -1;
                 selectedCol = -1;
@@ -224,6 +254,52 @@ namespace TicTacChess
             }
 
             return null;
+        }
+
+        private bool CheckWin(string player)
+        {
+            if (!winCheckActive)
+                return false;
+
+            // Check rows
+            for (int r = 0; r < 3; r++)
+            {
+                if (board.Squares[r, 0].StartsWith(player) &&
+                    board.Squares[r, 1].StartsWith(player) &&
+                    board.Squares[r, 2].StartsWith(player))
+                {
+                    return true;
+                }
+            }
+
+            // Check columns
+            for (int c = 0; c < 3; c++)
+            {
+                if (board.Squares[0, c].StartsWith(player) &&
+                    board.Squares[1, c].StartsWith(player) &&
+                    board.Squares[2, c].StartsWith(player))
+                {
+                    return true;
+                }
+            }
+
+            // Check main diagonal
+            if (board.Squares[0, 0].StartsWith(player) &&
+                board.Squares[1, 1].StartsWith(player) &&
+                board.Squares[2, 2].StartsWith(player))
+            {
+                return true;
+            }
+
+            // Check other diagonal
+            if (board.Squares[0, 2].StartsWith(player) &&
+                board.Squares[1, 1].StartsWith(player) &&
+                board.Squares[2, 0].StartsWith(player))
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }
