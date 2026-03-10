@@ -9,6 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Gold Giggers.otf" />
+    <None Remove="Fonts\Kastroz-0v5G9.otf" />
+    <None Remove="Fonts\KevinGhal-RpBEW.ttf" />
+    <None Remove="Fonts\SliterD.ttf" />
+    <None Remove="Fonts\StarshipShadow.otf" />
+    <None Remove="Fonts\SteampunkDemoByMartaVanEck-lwEe.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Fonts\SliterD.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

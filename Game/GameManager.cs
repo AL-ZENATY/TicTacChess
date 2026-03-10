@@ -86,7 +86,6 @@
         {
             // place the next setup piece on the board
             string piece = GetNextSetupPiece();
-            Board.Squares[row, col] = piece;
 
             if (PlacingWhite)
             {

@@ -41,8 +41,22 @@
             btn22 = new Button();
             lblStatusZy = new Label();
             btnRestartZy = new Button();
+            picLampGoldZy = new PictureBox();
+            picLampSilverZy = new PictureBox();
+            pbGoldZy = new PictureBox();
+            pbSilverZy = new PictureBox();
+            picSetup1 = new PictureBox();
+            picSetup2 = new PictureBox();
+            picSetup3 = new PictureBox();
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picLampGoldZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picLampSilverZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbGoldZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSilverZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup3).BeginInit();
             SuspendLayout();
             // 
             // pnlBoardZy
@@ -83,141 +97,309 @@
             // 
             // btn00
             // 
+            btn00.Cursor = Cursors.Hand;
             btn00.Dock = DockStyle.Fill;
+            btn00.FlatAppearance.BorderSize = 0;
+            btn00.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn00.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn00.FlatStyle = FlatStyle.Flat;
+            btn00.ForeColor = Color.Transparent;
             btn00.Location = new Point(2, 2);
             btn00.Margin = new Padding(2);
             btn00.Name = "btn00";
             btn00.Size = new Size(153, 140);
             btn00.TabIndex = 0;
             btn00.Tag = "0,0";
-            btn00.UseVisualStyleBackColor = true;
+            btn00.UseVisualStyleBackColor = false;
             btn00.Click += BoardCell_Click;
+            btn00.MouseEnter += BoardCell_MouseEnter;
+            btn00.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn01
             // 
+            btn01.Cursor = Cursors.Hand;
             btn01.Dock = DockStyle.Fill;
+            btn01.FlatAppearance.BorderSize = 0;
+            btn01.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn01.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn01.FlatStyle = FlatStyle.Flat;
+            btn01.ForeColor = Color.Transparent;
             btn01.Location = new Point(159, 2);
             btn01.Margin = new Padding(2);
             btn01.Name = "btn01";
             btn01.Size = new Size(165, 140);
             btn01.TabIndex = 1;
             btn01.Tag = "0,1";
-            btn01.UseVisualStyleBackColor = true;
+            btn01.UseVisualStyleBackColor = false;
             btn01.Click += BoardCell_Click;
+            btn01.MouseEnter += BoardCell_MouseEnter;
+            btn01.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn02
             // 
+            btn02.Cursor = Cursors.Hand;
             btn02.Dock = DockStyle.Fill;
+            btn02.FlatAppearance.BorderSize = 0;
+            btn02.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn02.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn02.FlatStyle = FlatStyle.Flat;
+            btn02.ForeColor = Color.Transparent;
             btn02.Location = new Point(328, 2);
             btn02.Margin = new Padding(2);
             btn02.Name = "btn02";
             btn02.Size = new Size(155, 140);
             btn02.TabIndex = 2;
             btn02.Tag = "0,2";
-            btn02.UseVisualStyleBackColor = true;
+            btn02.UseVisualStyleBackColor = false;
             btn02.Click += BoardCell_Click;
+            btn02.MouseEnter += BoardCell_MouseEnter;
+            btn02.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn10
             // 
+            btn10.Cursor = Cursors.Hand;
             btn10.Dock = DockStyle.Fill;
+            btn10.FlatAppearance.BorderSize = 0;
+            btn10.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn10.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn10.FlatStyle = FlatStyle.Flat;
+            btn10.ForeColor = Color.Transparent;
             btn10.Location = new Point(2, 146);
             btn10.Margin = new Padding(2);
             btn10.Name = "btn10";
             btn10.Size = new Size(153, 143);
             btn10.TabIndex = 3;
             btn10.Tag = "1,0";
-            btn10.UseVisualStyleBackColor = true;
+            btn10.UseVisualStyleBackColor = false;
             btn10.Click += BoardCell_Click;
+            btn10.MouseEnter += BoardCell_MouseEnter;
+            btn10.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn11
             // 
+            btn11.Cursor = Cursors.Hand;
             btn11.Dock = DockStyle.Fill;
+            btn11.FlatAppearance.BorderSize = 0;
+            btn11.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn11.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn11.FlatStyle = FlatStyle.Flat;
+            btn11.ForeColor = Color.Transparent;
             btn11.Location = new Point(159, 146);
             btn11.Margin = new Padding(2);
             btn11.Name = "btn11";
             btn11.Size = new Size(165, 143);
             btn11.TabIndex = 4;
             btn11.Tag = "1,1";
-            btn11.UseVisualStyleBackColor = true;
+            btn11.UseVisualStyleBackColor = false;
             btn11.Click += BoardCell_Click;
+            btn11.MouseEnter += BoardCell_MouseEnter;
+            btn11.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn12
             // 
+            btn12.Cursor = Cursors.Hand;
             btn12.Dock = DockStyle.Fill;
+            btn12.FlatAppearance.BorderSize = 0;
+            btn12.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn12.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn12.FlatStyle = FlatStyle.Flat;
+            btn12.ForeColor = Color.Transparent;
             btn12.Location = new Point(328, 146);
             btn12.Margin = new Padding(2);
             btn12.Name = "btn12";
             btn12.Size = new Size(155, 143);
             btn12.TabIndex = 5;
             btn12.Tag = "1,2";
-            btn12.UseVisualStyleBackColor = true;
+            btn12.UseVisualStyleBackColor = false;
             btn12.Click += BoardCell_Click;
+            btn12.MouseEnter += BoardCell_MouseEnter;
+            btn12.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn20
             // 
+            btn20.Cursor = Cursors.Hand;
             btn20.Dock = DockStyle.Fill;
+            btn20.FlatAppearance.BorderSize = 0;
+            btn20.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn20.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn20.FlatStyle = FlatStyle.Flat;
+            btn20.ForeColor = Color.Transparent;
             btn20.Location = new Point(2, 293);
             btn20.Margin = new Padding(2);
             btn20.Name = "btn20";
             btn20.Size = new Size(153, 153);
             btn20.TabIndex = 6;
             btn20.Tag = "2,0";
-            btn20.UseVisualStyleBackColor = true;
+            btn20.UseVisualStyleBackColor = false;
             btn20.Click += BoardCell_Click;
+            btn20.MouseEnter += BoardCell_MouseEnter;
+            btn20.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn21
             // 
+            btn21.Cursor = Cursors.Hand;
             btn21.Dock = DockStyle.Fill;
+            btn21.FlatAppearance.BorderSize = 0;
+            btn21.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn21.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn21.FlatStyle = FlatStyle.Flat;
+            btn21.ForeColor = Color.Transparent;
             btn21.Location = new Point(159, 293);
             btn21.Margin = new Padding(2);
             btn21.Name = "btn21";
             btn21.Size = new Size(165, 153);
             btn21.TabIndex = 7;
             btn21.Tag = "2,1";
-            btn21.UseVisualStyleBackColor = true;
+            btn21.UseVisualStyleBackColor = false;
             btn21.Click += BoardCell_Click;
+            btn21.MouseEnter += BoardCell_MouseEnter;
+            btn21.MouseLeave += BoardCell_MouseLeave;
             // 
             // btn22
             // 
+            btn22.Cursor = Cursors.Hand;
             btn22.Dock = DockStyle.Fill;
+            btn22.FlatAppearance.BorderSize = 0;
+            btn22.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn22.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn22.FlatStyle = FlatStyle.Flat;
+            btn22.ForeColor = Color.Transparent;
             btn22.Location = new Point(328, 293);
             btn22.Margin = new Padding(2);
             btn22.Name = "btn22";
             btn22.Size = new Size(155, 153);
             btn22.TabIndex = 8;
             btn22.Tag = "2,2";
-            btn22.UseVisualStyleBackColor = true;
+            btn22.UseVisualStyleBackColor = false;
             btn22.Click += BoardCell_Click;
+            btn22.MouseEnter += BoardCell_MouseEnter;
+            btn22.MouseLeave += BoardCell_MouseLeave;
             // 
             // lblStatusZy
             // 
-            lblStatusZy.AutoSize = true;
-            lblStatusZy.Location = new Point(491, 652);
+            lblStatusZy.BackColor = Color.Transparent;
+            lblStatusZy.Font = new Font("Copperplate Gothic Light", 10F);
+            lblStatusZy.ForeColor = Color.Peru;
+            lblStatusZy.Location = new Point(410, 644);
             lblStatusZy.Name = "lblStatusZy";
-            lblStatusZy.Size = new Size(38, 15);
+            lblStatusZy.Size = new Size(207, 36);
             lblStatusZy.TabIndex = 1;
             lblStatusZy.Text = "label1";
+            lblStatusZy.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatusZy.UseMnemonic = false;
             // 
             // btnRestartZy
             // 
             btnRestartZy.BackColor = Color.Transparent;
             btnRestartZy.BackgroundImage = Properties.Resources.resetBtnHover;
-            btnRestartZy.BackgroundImageLayout = ImageLayout.Zoom;
-            btnRestartZy.Location = new Point(233, 612);
+            btnRestartZy.BackgroundImageLayout = ImageLayout.Stretch;
+            btnRestartZy.FlatAppearance.BorderSize = 0;
+            btnRestartZy.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnRestartZy.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnRestartZy.FlatStyle = FlatStyle.Flat;
+            btnRestartZy.Location = new Point(234, 617);
             btnRestartZy.Name = "btnRestartZy";
-            btnRestartZy.Size = new Size(156, 73);
+            btnRestartZy.Size = new Size(153, 63);
             btnRestartZy.TabIndex = 2;
             btnRestartZy.UseVisualStyleBackColor = false;
             btnRestartZy.Click += btnRestartZy_Click;
+            btnRestartZy.MouseEnter += btnRestartZy_MouseEnter;
+            btnRestartZy.MouseLeave += btnRestartZy_MouseLeave;
+            // 
+            // picLampGoldZy
+            // 
+            picLampGoldZy.BackColor = Color.Transparent;
+            picLampGoldZy.BackgroundImage = Properties.Resources.lightOff;
+            picLampGoldZy.BackgroundImageLayout = ImageLayout.Stretch;
+            picLampGoldZy.Location = new Point(137, 131);
+            picLampGoldZy.Name = "picLampGoldZy";
+            picLampGoldZy.Size = new Size(41, 94);
+            picLampGoldZy.TabIndex = 4;
+            picLampGoldZy.TabStop = false;
+            // 
+            // picLampSilverZy
+            // 
+            picLampSilverZy.BackColor = Color.Transparent;
+            picLampSilverZy.BackgroundImage = Properties.Resources.lightOff;
+            picLampSilverZy.BackgroundImageLayout = ImageLayout.Stretch;
+            picLampSilverZy.Location = new Point(137, 366);
+            picLampSilverZy.Name = "picLampSilverZy";
+            picLampSilverZy.Size = new Size(41, 94);
+            picLampSilverZy.TabIndex = 5;
+            picLampSilverZy.TabStop = false;
+            // 
+            // pbGoldZy
+            // 
+            pbGoldZy.BackColor = Color.Transparent;
+            pbGoldZy.BackgroundImage = Properties.Resources.tagGold;
+            pbGoldZy.BackgroundImageLayout = ImageLayout.Stretch;
+            pbGoldZy.Location = new Point(93, 231);
+            pbGoldZy.Name = "pbGoldZy";
+            pbGoldZy.Size = new Size(136, 41);
+            pbGoldZy.TabIndex = 6;
+            pbGoldZy.TabStop = false;
+            // 
+            // pbSilverZy
+            // 
+            pbSilverZy.BackColor = Color.Transparent;
+            pbSilverZy.BackgroundImage = Properties.Resources.tagSilver;
+            pbSilverZy.BackgroundImageLayout = ImageLayout.Stretch;
+            pbSilverZy.Location = new Point(93, 466);
+            pbSilverZy.Name = "pbSilverZy";
+            pbSilverZy.Size = new Size(136, 41);
+            pbSilverZy.TabIndex = 7;
+            pbSilverZy.TabStop = false;
+            // 
+            // picSetup1
+            // 
+            picSetup1.BackColor = Color.Transparent;
+            picSetup1.BackgroundImage = Properties.Resources.spQ;
+            picSetup1.BackgroundImageLayout = ImageLayout.Zoom;
+            picSetup1.Cursor = Cursors.Hand;
+            picSetup1.Location = new Point(937, 107);
+            picSetup1.Name = "picSetup1";
+            picSetup1.Size = new Size(127, 176);
+            picSetup1.SizeMode = PictureBoxSizeMode.Zoom;
+            picSetup1.TabIndex = 12;
+            picSetup1.TabStop = false;
+            picSetup1.Visible = false;
+            picSetup1.Click += picSetup1_Click;
+            picSetup1.MouseEnter += SetupPiece_MouseEnter;
+            picSetup1.MouseLeave += SetupPiece_MouseLeave;
+            // 
+            // picSetup2
+            // 
+            picSetup2.BackColor = Color.Transparent;
+            picSetup2.BackgroundImage = Properties.Resources.spR;
+            picSetup2.BackgroundImageLayout = ImageLayout.Zoom;
+            picSetup2.Cursor = Cursors.Hand;
+            picSetup2.Location = new Point(937, 302);
+            picSetup2.Name = "picSetup2";
+            picSetup2.Size = new Size(127, 176);
+            picSetup2.SizeMode = PictureBoxSizeMode.Zoom;
+            picSetup2.TabIndex = 13;
+            picSetup2.TabStop = false;
+            picSetup2.Visible = false;
+            picSetup2.Click += picSetup2_Click;
+            picSetup2.MouseEnter += SetupPiece_MouseEnter;
+            picSetup2.MouseLeave += SetupPiece_MouseLeave;
+            // 
+            // picSetup3
+            // 
+            picSetup3.BackColor = Color.Transparent;
+            picSetup3.BackgroundImage = Properties.Resources.spK;
+            picSetup3.BackgroundImageLayout = ImageLayout.Zoom;
+            picSetup3.Cursor = Cursors.Hand;
+            picSetup3.Location = new Point(937, 502);
+            picSetup3.Name = "picSetup3";
+            picSetup3.Size = new Size(127, 176);
+            picSetup3.SizeMode = PictureBoxSizeMode.Zoom;
+            picSetup3.TabIndex = 14;
+            picSetup3.TabStop = false;
+            picSetup3.Visible = false;
+            picSetup3.Click += picSetup3_Click;
+            picSetup3.MouseEnter += SetupPiece_MouseEnter;
+            picSetup3.MouseLeave += SetupPiece_MouseLeave;
             // 
             // Form1
             // 
@@ -226,6 +408,13 @@
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(picSetup3);
+            Controls.Add(picSetup2);
+            Controls.Add(picSetup1);
+            Controls.Add(pbSilverZy);
+            Controls.Add(pbGoldZy);
+            Controls.Add(picLampSilverZy);
+            Controls.Add(picLampGoldZy);
             Controls.Add(btnRestartZy);
             Controls.Add(lblStatusZy);
             Controls.Add(pnlBoardZy);
@@ -233,8 +422,14 @@
             Text = "Form1";
             pnlBoardZy.ResumeLayout(false);
             tblBoardZy.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picLampGoldZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picLampSilverZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbGoldZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSilverZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup3).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -252,5 +447,12 @@
         private Button btn22;
         private Label lblStatusZy;
         private Button btnRestartZy;
+        private PictureBox picLampGoldZy;
+        private PictureBox picLampSilverZy;
+        private PictureBox pbGoldZy;
+        private PictureBox pbSilverZy;
+        private PictureBox picSetup1;
+        private PictureBox picSetup2;
+        private PictureBox picSetup3;
     }
 }
