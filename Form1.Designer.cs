@@ -40,6 +40,7 @@
             btn21 = new Button();
             btn22 = new Button();
             lblStatusZy = new Label();
+            btnRestartZy = new Button();
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
             SuspendLayout();
@@ -206,6 +207,18 @@
             lblStatusZy.TabIndex = 1;
             lblStatusZy.Text = "label1";
             // 
+            // btnRestartZy
+            // 
+            btnRestartZy.BackColor = Color.Transparent;
+            btnRestartZy.BackgroundImage = Properties.Resources.resetBtnHover;
+            btnRestartZy.BackgroundImageLayout = ImageLayout.Zoom;
+            btnRestartZy.Location = new Point(233, 612);
+            btnRestartZy.Name = "btnRestartZy";
+            btnRestartZy.Size = new Size(156, 73);
+            btnRestartZy.TabIndex = 2;
+            btnRestartZy.UseVisualStyleBackColor = false;
+            btnRestartZy.Click += btnRestartZy_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -213,6 +226,7 @@
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(btnRestartZy);
             Controls.Add(lblStatusZy);
             Controls.Add(pnlBoardZy);
             Name = "Form1";
@@ -237,5 +251,6 @@
         private Button btn21;
         private Button btn22;
         private Label lblStatusZy;
+        private Button btnRestartZy;
     }
 }

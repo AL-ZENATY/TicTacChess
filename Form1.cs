@@ -302,5 +302,31 @@ namespace TicTacChess
             return false;
         }
 
+            private void btnRestartZy_Click(object sender, EventArgs e)
+        {
+            board.Clear();
+
+            setupPhase = true;
+            placingWhite = true;
+            whiteIndex = 0;
+            blackIndex = 0;
+
+            selectedRow = -1;
+            selectedCol = -1;
+
+            currentPlayer = "W";
+            winCheckActive = false;
+            gameOver = false;
+
+            foreach (Control control in tblBoardZy.Controls)
+            {
+                if (control is Button btn)
+                {
+                    btn.Text = "";
+                }
+            }
+
+            lblStatusZy.Text = "Game reset. Place White pieces first.";
+        }
     }
 }
