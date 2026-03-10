@@ -116,12 +116,82 @@ namespace TicTacChess
             }
             else
             {
-                lblStatusZy.Text = $"Move from ({selectedRow},{selectedCol}) to ({row},{col})";
+                // same square = cancel selection
+                if (row == selectedRow && col == selectedCol)
+                {
+                    lblStatusZy.Text = "Selection canceled.";
+                    selectedRow = -1;
+                    selectedCol = -1;
+                    return;
+                }
 
-                // Reset selection for now
+                // cannot move onto occupied square
+                if (board.Squares[row, col] != "")
+                {
+                    lblStatusZy.Text = "That square is already occupied.";
+                    return;
+                }
+
+                // move piece
+                string selectedPiece = board.Squares[selectedRow, selectedCol];
+                // Validate Queen movement
+                if (selectedPiece == "WQ" || selectedPiece == "BQ")
+                {
+                    int rowDiff = Math.Abs(row - selectedRow);
+                    int colDiff = Math.Abs(col - selectedCol);
+
+                    bool validMove =
+                        row == selectedRow ||      // horizontal
+                        col == selectedCol ||      // vertical
+                        rowDiff == colDiff;        // diagonal
+
+                    if (!validMove)
+                    {
+                        lblStatusZy.Text = "Invalid Queen move.";
+                        return;
+                    }
+                }
+                board.Squares[row, col] = selectedPiece;
+                board.Squares[selectedRow, selectedCol] = "";
+
+                // update button text
+                btn.Text = selectedPiece;
+
+                Button oldButton = GetButtonByPosition(selectedRow, selectedCol);
+                oldButton.Text = "";
+
+                // switch turns
+                if (currentPlayer == "W")
+                {
+                    currentPlayer = "B";
+                }
+                else
+                {
+                    currentPlayer = "W";
+                }
+
+                lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {currentPlayer}'s turn.";
+
                 selectedRow = -1;
                 selectedCol = -1;
             }
         }
+
+        private Button GetButtonByPosition(int row, int col)
+        {
+            foreach (Control control in tblBoardZy.Controls)
+            {
+                if (control is Button btn)
+                {
+                    if (btn.Tag.ToString() == $"{row},{col}")
+                    {
+                        return btn;
+                    }
+                }
+            }
+
+            return null;
+        }
+
     }
 }
