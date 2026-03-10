@@ -167,6 +167,23 @@ namespace TicTacChess
                     }
                 }
 
+                // Validate Knight movement
+                if (selectedPiece == "WN" || selectedPiece == "BN")
+                {
+                    int rowDiff = Math.Abs(row - selectedRow);
+                    int colDiff = Math.Abs(col - selectedCol);
+
+                    bool validMove =
+                        (rowDiff == 2 && colDiff == 1) ||
+                        (rowDiff == 1 && colDiff == 2);
+
+                    if (!validMove)
+                    {
+                        lblStatusZy.Text = "Invalid Knight move.";
+                        return;
+                    }
+                }
+
                 board.Squares[row, col] = selectedPiece;
                 board.Squares[selectedRow, selectedCol] = "";
 
