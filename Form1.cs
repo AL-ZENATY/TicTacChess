@@ -4,95 +4,82 @@ namespace TicTacChess
 {
     public partial class Form1 : Form
     {
-        Board board = new Board();
+        // Main board data
+        private Board board = new Board();
 
-        private bool setupPhase = true;
-        private string[] whiteToPlace = { "WQ", "WR", "WN" };
-        private string[] blackToPlace = { "BQ", "BR", "BN" };
+        // Handles game state like turns, setup, selection, and game over
+        private GameManager gameManager;
 
-        private int whiteIndex = 0;
-        private int blackIndex = 0;
+        // Checks if a selected move is legal
+        private MoveValidator moveValidator = new MoveValidator();
 
-        private int selectedRow = -1;
-        private int selectedCol = -1;
+        // Checks if a player has won
+        private WinDetector winDetector = new WinDetector();
 
-        private string currentPlayer = "W";
-
-        private bool placingWhite = true; // true = white placing, false = black placing
-
-        private bool winCheckActive = false; // set to true after setup phase to enable win condition checks
-
-        private bool gameOver = false; // set to true when a win condition is met to prevent further moves
         public Form1()
         {
             InitializeComponent();
+            gameManager = new GameManager(board);
         }
 
         private void BoardCell_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
 
+            // Read the row and column from the button Tag
             string[] parts = btn.Tag.ToString().Split(',');
             int row = int.Parse(parts[0]);
             int col = int.Parse(parts[1]);
 
-            if (gameOver)
+            // Stop all input if the game already ended
+            if (gameManager.GameOver)
             {
                 lblStatusZy.Text = "The game is over.";
                 return;
             }
 
-            if (setupPhase)
+            // Setup phase: players place pieces on the board
+            if (gameManager.SetupPhase)
             {
-                // Rule: must click empty square
+                // A piece can only be placed on an empty square
                 if (board.Squares[row, col] != "")
                 {
                     lblStatusZy.Text = "That square is already taken.";
                     return;
                 }
 
-                // Rule: white bottom row only (row 2), black top row only (row 0)
-                if (placingWhite && row != 2)
+                // White must place on bottom row, Black on top row
+                if (gameManager.PlacingWhite && row != 2)
                 {
                     lblStatusZy.Text = "White must place in the bottom row.";
                     return;
                 }
-                if (!placingWhite && row != 0)
+
+                if (!gameManager.PlacingWhite && row != 0)
                 {
                     lblStatusZy.Text = "Black must place in the top row.";
                     return;
                 }
 
+                // Get the next piece, place it, and show it on the button
+                string piece = gameManager.GetNextSetupPiece();
+                gameManager.PlaceSetupPiece(row, col);
+                btn.Text = piece;
 
-                // Place next piece
-                if (placingWhite)
+                // Show the correct setup message
+                if (gameManager.IsSetupFinished())
                 {
-                    string piece = whiteToPlace[whiteIndex];
-                    board.Squares[row, col] = piece;
-                    btn.Text = piece;
-
-                    whiteIndex++;
-                    if (whiteIndex >= whiteToPlace.Length)
-                    {
-                        placingWhite = false;
-                        lblStatusZy.Text = "White done. Now place Black pieces (top row).";
-                    }
-                    else
-                    {
-                        lblStatusZy.Text = $"Placed {piece}. Place next White piece.";
-                    }
+                    lblStatusZy.Text = "Setup complete. Game phase starts!";
+                }
+                else if (gameManager.IsWhiteSetupFinished())
+                {
+                    lblStatusZy.Text = "White done. Now place Black pieces (top row).";
                 }
                 else
                 {
-                    string piece = blackToPlace[blackIndex];
-                    board.Squares[row, col] = piece;
-                    btn.Text = piece;
-
-                    blackIndex++;
-                    if (blackIndex >= blackToPlace.Length)
+                    if (gameManager.PlacingWhite)
                     {
-                        setupPhase = false;
-                        lblStatusZy.Text = "Setup complete. Game phase starts!";
+                        lblStatusZy.Text = $"Placed {piece}. Place next White piece.";
                     }
                     else
                     {
@@ -103,123 +90,74 @@ namespace TicTacChess
                 return;
             }
 
-            // If nothing selected yet
-            if (selectedRow == -1)
+            // Game phase: no piece selected yet
+            if (!gameManager.HasSelectedPiece())
             {
                 string piece = board.Squares[row, col];
 
+                // Player must click a square that contains a piece
                 if (piece == "")
                 {
                     lblStatusZy.Text = "Select a piece first.";
                     return;
                 }
 
-                if (!piece.StartsWith(currentPlayer))
+                // Player can only select their own piece
+                if (!piece.StartsWith(gameManager.CurrentPlayer))
                 {
                     lblStatusZy.Text = "That is not your piece.";
                     return;
                 }
 
-                selectedRow = row;
-                selectedCol = col;
-
+                // Save the selected piece position
+                gameManager.SelectPiece(row, col);
                 lblStatusZy.Text = $"Selected piece at ({row},{col})";
             }
             else
             {
-                // same square = cancel selection
-                if (row == selectedRow && col == selectedCol)
+                // Clicking the selected piece again cancels the selection
+                if (row == gameManager.SelectedRow && col == gameManager.SelectedCol)
                 {
                     lblStatusZy.Text = "Selection canceled.";
-                    selectedRow = -1;
-                    selectedCol = -1;
+                    gameManager.ClearSelection();
                     return;
                 }
 
-                // cannot move onto occupied square
+                // Pieces cannot move onto occupied squares
                 if (board.Squares[row, col] != "")
                 {
                     lblStatusZy.Text = "That square is already occupied.";
                     return;
                 }
 
-                // move piece
-                string selectedPiece = board.Squares[selectedRow, selectedCol];
+                // Read the currently selected piece
+                string selectedPiece = board.Squares[gameManager.SelectedRow, gameManager.SelectedCol];
 
-                // Validate Queen movement
-                if (selectedPiece == "WQ" || selectedPiece == "BQ")
+                // Check if the move follows the piece rules
+                if (!moveValidator.IsValidMove(selectedPiece, gameManager.SelectedRow, gameManager.SelectedCol, row, col))
                 {
-                    int rowDiff = Math.Abs(row - selectedRow);
-                    int colDiff = Math.Abs(col - selectedCol);
-
-                    bool validMove =
-                        row == selectedRow ||      // horizontal
-                        col == selectedCol ||      // vertical
-                        rowDiff == colDiff;        // diagonal
-
-                    if (!validMove)
-                    {
-                        lblStatusZy.Text = "Invalid Queen move.";
-                        return;
-                    }
+                    lblStatusZy.Text = moveValidator.GetInvalidMoveMessage(selectedPiece);
+                    return;
                 }
 
-                // Validate Rook movement
-                if (selectedPiece == "WR" || selectedPiece == "BR")
-                {
-                    bool validMove =
-                        row == selectedRow ||   // same row
-                        col == selectedCol;     // same column
+                // Move the piece in the board data
+                gameManager.MovePiece(row, col);
 
-                    if (!validMove)
-                    {
-                        lblStatusZy.Text = "Invalid Rook move.";
-                        return;
-                    }
-                }
-
-                // Validate Knight movement
-                if (selectedPiece == "WN" || selectedPiece == "BN")
-                {
-                    int rowDiff = Math.Abs(row - selectedRow);
-                    int colDiff = Math.Abs(col - selectedCol);
-
-                    bool validMove =
-                        (rowDiff == 2 && colDiff == 1) ||
-                        (rowDiff == 1 && colDiff == 2);
-
-                    if (!validMove)
-                    {
-                        lblStatusZy.Text = "Invalid Knight move.";
-                        return;
-                    }
-                }
-
-                board.Squares[row, col] = selectedPiece;
-                board.Squares[selectedRow, selectedCol] = "";
-
-                // update button text
+                // Show the moved piece on the new button
                 btn.Text = selectedPiece;
 
-                Button oldButton = GetButtonByPosition(selectedRow, selectedCol);
+                // Clear the old button text
+                Button oldButton = GetButtonByPosition(gameManager.SelectedRow, gameManager.SelectedCol);
                 oldButton.Text = "";
 
-                // switch turns
-                if (currentPlayer == "W")
-                {
-                    currentPlayer = "B";
-                }
-                else
-                {
-                    currentPlayer = "W";
-                }
+                // Change turn after a valid move
+                gameManager.SwitchTurn();
 
-                winCheckActive = true;
-
+                // Check if the player who just moved created a winning line
                 string movedPlayer = selectedPiece.Substring(0, 1);
-                if (CheckWin(movedPlayer))
+                if (gameManager.WinCheckActive && winDetector.CheckWin(board, movedPlayer))
                 {
-                    gameOver = true;
+                    gameManager.SetGameOver();
 
                     if (movedPlayer == "W")
                     {
@@ -232,16 +170,17 @@ namespace TicTacChess
                 }
                 else
                 {
-                    lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {currentPlayer}'s turn.";
+                    lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {gameManager.CurrentPlayer}'s turn.";
                 }
 
-                selectedRow = -1;
-                selectedCol = -1;
+                // Clear selection after the move is finished
+                gameManager.ClearSelection();
             }
         }
 
         private Button GetButtonByPosition(int row, int col)
         {
+            // Search all board buttons and return the one with matching coordinates
             foreach (Control control in tblBoardZy.Controls)
             {
                 if (control is Button btn)
@@ -256,68 +195,12 @@ namespace TicTacChess
             return null;
         }
 
-        private bool CheckWin(string player)
+        private void btnRestartZy_Click(object sender, EventArgs e)
         {
-            if (!winCheckActive)
-                return false;
+            // Reset all game data
+            gameManager.ResetGame();
 
-            // Check rows
-            for (int r = 0; r < 3; r++)
-            {
-                if (board.Squares[r, 0].StartsWith(player) &&
-                    board.Squares[r, 1].StartsWith(player) &&
-                    board.Squares[r, 2].StartsWith(player))
-                {
-                    return true;
-                }
-            }
-
-            // Check columns
-            for (int c = 0; c < 3; c++)
-            {
-                if (board.Squares[0, c].StartsWith(player) &&
-                    board.Squares[1, c].StartsWith(player) &&
-                    board.Squares[2, c].StartsWith(player))
-                {
-                    return true;
-                }
-            }
-
-            // Check main diagonal
-            if (board.Squares[0, 0].StartsWith(player) &&
-                board.Squares[1, 1].StartsWith(player) &&
-                board.Squares[2, 2].StartsWith(player))
-            {
-                return true;
-            }
-
-            // Check other diagonal
-            if (board.Squares[0, 2].StartsWith(player) &&
-                board.Squares[1, 1].StartsWith(player) &&
-                board.Squares[2, 0].StartsWith(player))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-            private void btnRestartZy_Click(object sender, EventArgs e)
-        {
-            board.Clear();
-
-            setupPhase = true;
-            placingWhite = true;
-            whiteIndex = 0;
-            blackIndex = 0;
-
-            selectedRow = -1;
-            selectedCol = -1;
-
-            currentPlayer = "W";
-            winCheckActive = false;
-            gameOver = false;
-
+            // Clear all board button text
             foreach (Control control in tblBoardZy.Controls)
             {
                 if (control is Button btn)
