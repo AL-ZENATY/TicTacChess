@@ -134,6 +134,7 @@ namespace TicTacChess
 
                 // move piece
                 string selectedPiece = board.Squares[selectedRow, selectedCol];
+
                 // Validate Queen movement
                 if (selectedPiece == "WQ" || selectedPiece == "BQ")
                 {
@@ -151,6 +152,21 @@ namespace TicTacChess
                         return;
                     }
                 }
+
+                // Validate Rook movement
+                if (selectedPiece == "WR" || selectedPiece == "BR")
+                {
+                    bool validMove =
+                        row == selectedRow ||   // same row
+                        col == selectedCol;     // same column
+
+                    if (!validMove)
+                    {
+                        lblStatusZy.Text = "Invalid Rook move.";
+                        return;
+                    }
+                }
+
                 board.Squares[row, col] = selectedPiece;
                 board.Squares[selectedRow, selectedCol] = "";
 
