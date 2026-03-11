@@ -8,37 +8,48 @@
             // check horizontal lines
             for (int r = 0; r < 3; r++)
             {
-                if (board.Squares[r, 0].StartsWith(player) &&
-                    board.Squares[r, 1].StartsWith(player) &&
-                    board.Squares[r, 2].StartsWith(player))
+                if (board.Squares[r, 0] != "" && board.Squares[r, 0].StartsWith(player) &&
+                    board.Squares[r, 1] != "" && board.Squares[r, 1].StartsWith(player) &&
+                    board.Squares[r, 2] != "" && board.Squares[r, 2].StartsWith(player))
                 {
-                    return true;
+                    if (player == "W" && r == 2)
+                    {
+                        // White bottom row does not count as a win
+                    }
+                    else if (player == "B" && r == 0)
+                    {
+                        // Black top row does not count as a win
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
 
             // check vertical lines
             for (int c = 0; c < 3; c++)
             {
-                if (board.Squares[0, c].StartsWith(player) &&
-                    board.Squares[1, c].StartsWith(player) &&
-                    board.Squares[2, c].StartsWith(player))
+                if (board.Squares[0, c] != "" && board.Squares[0, c].StartsWith(player) &&
+                    board.Squares[1, c] != "" && board.Squares[1, c].StartsWith(player) &&
+                    board.Squares[2, c] != "" && board.Squares[2, c].StartsWith(player))
                 {
                     return true;
                 }
             }
 
             // check diagonal top-left -> bottom-right
-            if (board.Squares[0, 0].StartsWith(player) &&
-                board.Squares[1, 1].StartsWith(player) &&
-                board.Squares[2, 2].StartsWith(player))
+            if (board.Squares[0, 0] != "" && board.Squares[0, 0].StartsWith(player) &&
+                board.Squares[1, 1] != "" && board.Squares[1, 1].StartsWith(player) &&
+                board.Squares[2, 2] != "" && board.Squares[2, 2].StartsWith(player))
             {
                 return true;
             }
 
             // check diagonal top-right -> bottom-left
-            if (board.Squares[0, 2].StartsWith(player) &&
-                board.Squares[1, 1].StartsWith(player) &&
-                board.Squares[2, 0].StartsWith(player))
+            if (board.Squares[0, 2] != "" && board.Squares[0, 2].StartsWith(player) &&
+                board.Squares[1, 1] != "" && board.Squares[1, 1].StartsWith(player) &&
+                board.Squares[2, 0] != "" && board.Squares[2, 0].StartsWith(player))
             {
                 return true;
             }

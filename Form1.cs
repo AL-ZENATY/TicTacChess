@@ -68,7 +68,7 @@ namespace TicTacChess
             ShowSetupPieces();
 
             customFonts.AddFontFile("Fonts/SliterD.ttf");
-            gameFont = new Font(customFonts.Families[0], 8);
+            gameFont = new Font(customFonts.Families[0], 10);
             lblStatusZy.Font = gameFont;
         }
 
@@ -199,7 +199,7 @@ namespace TicTacChess
                 string selectedPiece = board.Squares[gameManager.SelectedRow, gameManager.SelectedCol];
 
                 // Check if the move follows the piece rules
-                if (!moveValidator.IsValidMove(selectedPiece, gameManager.SelectedRow, gameManager.SelectedCol, row, col))
+                if (!moveValidator.IsValidMove(board, selectedPiece, gameManager.SelectedRow, gameManager.SelectedCol, row, col))
                 {
                     lblStatusZy.Text = moveValidator.GetInvalidMoveMessage(selectedPiece);
                     return;

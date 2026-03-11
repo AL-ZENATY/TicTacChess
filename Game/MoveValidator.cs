@@ -3,16 +3,16 @@
     public class MoveValidator
     {
         // Main method: checks if the move is valid depending on the piece type
-        public bool IsValidMove(string piece, int fromRow, int fromCol, int toRow, int toCol)
+        public bool IsValidMove(Board board, string piece, int fromRow, int fromCol, int toRow, int toCol)
         {
             if (piece == "WQ" || piece == "BQ")
             {
-                return IsValidQueenMove(fromRow, fromCol, toRow, toCol);
+                return IsValidQueenMove(board, fromRow, fromCol, toRow, toCol);
             }
 
             if (piece == "WR" || piece == "BR")
             {
-                return IsValidRookMove(fromRow, fromCol, toRow, toCol);
+                return IsValidRookMove(board, fromRow, fromCol, toRow, toCol);
             }
 
             if (piece == "WN" || piece == "BN")
@@ -39,18 +39,115 @@
         }
 
         // Queen: horizontal, vertical, or diagonal
-        private bool IsValidQueenMove(int fromRow, int fromCol, int toRow, int toCol)
+        private bool IsValidQueenMove(Board board, int fromRow, int fromCol, int toRow, int toCol)
         {
             int rowDiff = Math.Abs(toRow - fromRow);
             int colDiff = Math.Abs(toCol - fromCol);
 
-            return fromRow == toRow || fromCol == toCol || rowDiff == colDiff;
+            if (fromRow == toRow)
+            {
+                int startCol = Math.Min(fromCol, toCol) + 1;
+                int endCol = Math.Max(fromCol, toCol);
+
+                for (int c = startCol; c < endCol; c++)
+                {
+                    if (board.Squares[fromRow, c] != "")
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            if (fromCol == toCol)
+            {
+                int startRow = Math.Min(fromRow, toRow) + 1;
+                int endRow = Math.Max(fromRow, toRow);
+
+                for (int r = startRow; r < endRow; r++)
+                {
+                    if (board.Squares[r, fromCol] != "")
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            if (rowDiff == colDiff)
+            {
+                int rowStep;
+                int colStep;
+
+                if (toRow > fromRow)
+                    rowStep = 1;
+                else
+                    rowStep = -1;
+
+                if (toCol > fromCol)
+                    colStep = 1;
+                else
+                    colStep = -1;
+
+                int currentRow = fromRow + rowStep;
+                int currentCol = fromCol + colStep;
+
+                while (currentRow != toRow && currentCol != toCol)
+                {
+                    if (board.Squares[currentRow, currentCol] != "")
+                    {
+                        return false;
+                    }
+
+                    currentRow += rowStep;
+                    currentCol += colStep;
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         // Rook: straight lines only
-        private bool IsValidRookMove(int fromRow, int fromCol, int toRow, int toCol)
+        private bool IsValidRookMove(Board board, int fromRow, int fromCol, int toRow, int toCol)
         {
-            return fromRow == toRow || fromCol == toCol;
+            if (fromRow != toRow && fromCol != toCol)
+            {
+                return false;
+            }
+
+            if (fromRow == toRow)
+            {
+                int startCol = Math.Min(fromCol, toCol) + 1;
+                int endCol = Math.Max(fromCol, toCol);
+
+                for (int c = startCol; c < endCol; c++)
+                {
+                    if (board.Squares[fromRow, c] != "")
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (fromCol == toCol)
+            {
+                int startRow = Math.Min(fromRow, toRow) + 1;
+                int endRow = Math.Max(fromRow, toRow);
+
+                for (int r = startRow; r < endRow; r++)
+                {
+                    if (board.Squares[r, fromCol] != "")
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         // Knight: L-shape move
