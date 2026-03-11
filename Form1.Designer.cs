@@ -1,4 +1,5 @@
-﻿namespace TicTacChess
+﻿
+namespace TicTacChess
 {
     partial class Form1
     {
@@ -28,6 +29,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pnlBoardZy = new Panel();
             tblBoardZy = new TableLayoutPanel();
             btn00 = new Button();
@@ -48,6 +51,8 @@
             picSetup1 = new PictureBox();
             picSetup2 = new PictureBox();
             picSetup3 = new PictureBox();
+            videoPlayerZy = new AxWMPLib.AxWindowsMediaPlayer();
+            videoHideTimerZy = new System.Windows.Forms.Timer(components);
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLampGoldZy).BeginInit();
@@ -57,6 +62,7 @@
             ((System.ComponentModel.ISupportInitialize)picSetup1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picSetup2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picSetup3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)videoPlayerZy).BeginInit();
             SuspendLayout();
             // 
             // pnlBoardZy
@@ -401,6 +407,22 @@
             picSetup3.MouseEnter += SetupPiece_MouseEnter;
             picSetup3.MouseLeave += SetupPiece_MouseLeave;
             // 
+            // videoPlayerZy
+            // 
+            videoPlayerZy.Dock = DockStyle.Fill;
+            videoPlayerZy.Enabled = true;
+            videoPlayerZy.Location = new Point(0, 0);
+            videoPlayerZy.Name = "videoPlayerZy";
+            videoPlayerZy.OcxState = (AxHost.State)resources.GetObject("videoPlayerZy.OcxState");
+            videoPlayerZy.Size = new Size(1145, 780);
+            videoPlayerZy.TabIndex = 15;
+            videoPlayerZy.Visible = false;
+            // 
+            // videoHideTimerZy
+            // 
+            videoHideTimerZy.Interval = 3000;
+            videoHideTimerZy.Tick += videoHideTimerZy_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -408,6 +430,7 @@
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(videoPlayerZy);
             Controls.Add(picSetup3);
             Controls.Add(picSetup2);
             Controls.Add(picSetup1);
@@ -429,6 +452,7 @@
             ((System.ComponentModel.ISupportInitialize)picSetup1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picSetup2).EndInit();
             ((System.ComponentModel.ISupportInitialize)picSetup3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)videoPlayerZy).EndInit();
             ResumeLayout(false);
         }
 
@@ -454,5 +478,8 @@
         private PictureBox picSetup1;
         private PictureBox picSetup2;
         private PictureBox picSetup3;
+        private AxWMPLib.AxWindowsMediaPlayer videoPlayerZy;
+        private System.Windows.Forms.Timer videoHideTimerZy;
+        private EventHandler videoPlayerZy_PlayerDockedStateChange;
     }
 }

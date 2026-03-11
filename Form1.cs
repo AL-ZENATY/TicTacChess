@@ -34,9 +34,10 @@ namespace TicTacChess
         private Image brGlow;
         private Image bnGlow;
 
+        private Image highlightImage;
+
         PrivateFontCollection customFonts = new PrivateFontCollection();
         Font gameFont;
-
         private string selectedSetupPiece = "";
 
 
@@ -47,6 +48,8 @@ namespace TicTacChess
 
             lampOn = Properties.Resources.lightOn;
             lampOff = Properties.Resources.lightOff;
+
+            highlightImage = Properties.Resources.highlight4;
 
             wqImage = Properties.Resources.spQ;
             wrImage = Properties.Resources.spR;
@@ -70,6 +73,11 @@ namespace TicTacChess
             customFonts.AddFontFile("Fonts/SliterD.ttf");
             gameFont = new Font(customFonts.Families[0], 10);
             lblStatusZy.Font = gameFont;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            videoPlayerZy.uiMode = "none";
         }
 
         private void BoardCell_Click(object sender, EventArgs e)
@@ -176,6 +184,8 @@ namespace TicTacChess
 
                 // Save the selected piece position
                 gameManager.SelectPiece(row, col);
+                ClearHighlights();
+                ShowLegalMoves(row, col);
                 lblStatusZy.Text = $"Selected piece at ({row},{col})";
             }
             else
@@ -185,6 +195,7 @@ namespace TicTacChess
                 {
                     lblStatusZy.Text = "Selection canceled.";
                     gameManager.ClearSelection();
+                    ClearHighlights();
                     return;
                 }
 
@@ -207,6 +218,7 @@ namespace TicTacChess
 
                 // Move the piece in the board data
                 gameManager.MovePiece(row, col);
+                ClearHighlights();
 
                 // Show the moved piece on the new button
                 btn.BackgroundImage = GetPieceImage(selectedPiece);
@@ -230,11 +242,29 @@ namespace TicTacChess
 
                     if (movedPlayer == "W")
                     {
-                        lblStatusZy.Text = "White wins!";
+                        lblStatusZy.Text = "Silver wins!";
+
+                        videoPlayerZy.URL = "Videos/silverWin.mp4";
+                        videoPlayerZy.Visible = true;
+                        videoPlayerZy.uiMode = "none";
+                        videoPlayerZy.Ctlcontrols.play();
+
+                        videoHideTimerZy.Stop();
+                        videoHideTimerZy.Interval = 8000;
+                        videoHideTimerZy.Start();
                     }
                     else
                     {
-                        lblStatusZy.Text = "Black wins!";
+                        lblStatusZy.Text = "Gold wins!";
+
+                        videoPlayerZy.URL = "Videos/goldWin.mp4";
+                        videoPlayerZy.Visible = true;
+                        videoPlayerZy.uiMode = "none";
+                        videoPlayerZy.Ctlcontrols.play();
+
+                        videoHideTimerZy.Stop();
+                        videoHideTimerZy.Interval = 8000;
+                        videoHideTimerZy.Start();
                     }
                 }
                 else
@@ -282,6 +312,7 @@ namespace TicTacChess
 
             ShowSetupPieces();
             lblStatusZy.Text = "Game reset. Place White pieces first.";
+            videoPlayerZy.Visible = false;
         }
 
         private void UpdateTurnLamps()
@@ -380,6 +411,49 @@ namespace TicTacChess
             if (piece == "BN") return bnImage;
 
             return null;
+        }
+
+        private void ClearHighlights()
+        {
+            foreach (Control control in tblBoardZy.Controls)
+            {
+                if (control is Button btn)
+                {
+                    string[] parts = btn.Tag.ToString().Split(',');
+                    int row = int.Parse(parts[0]);
+                    int col = int.Parse(parts[1]);
+
+                    if (board.Squares[row, col] == "")
+                    {
+                        btn.BackgroundImage = null;
+                    }
+                }
+            }
+        }
+
+        private void ShowLegalMoves(int fromRow, int fromCol)
+        {
+            string piece = board.Squares[fromRow, fromCol];
+
+            foreach (Control control in tblBoardZy.Controls)
+            {
+                if (control is Button btn)
+                {
+                    string[] parts = btn.Tag.ToString().Split(',');
+                    int row = int.Parse(parts[0]);
+                    int col = int.Parse(parts[1]);
+
+                    if (board.Squares[row, col] == "")
+                    {
+                        if (moveValidator.IsValidMove(board, piece, fromRow, fromCol, row, col))
+                        {
+                            btn.BackgroundImage = highlightImage;
+                            btn.BackgroundImageLayout = ImageLayout.Stretch;
+                            btn.Text = "";
+                        }
+                    }
+                }
+            }
         }
 
         private void BoardCell_MouseEnter(object sender, EventArgs e)
@@ -495,6 +569,18 @@ namespace TicTacChess
         private void btnRestartZy_MouseLeave(object sender, EventArgs e)
         {
             btnRestartZy.BackgroundImage = Properties.Resources.resetBtn;
+        }
+
+        private void videoHideTimer_Tick(object sender, EventArgs e)
+        {
+            videoHideTimerZy.Stop();
+            videoPlayerZy.Visible = false;
+        }
+
+        private void videoHideTimerZy_Tick(object sender, EventArgs e)
+        {
+            videoHideTimerZy.Stop();
+            videoPlayerZy.Visible = false;
         }
     }
 }
