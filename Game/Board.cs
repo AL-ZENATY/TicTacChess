@@ -2,7 +2,7 @@
 {
     public class Board
     {
-        // 3x3 board that stores the pieces (WQ, WR, BN, etc.)
+        // 3x3 board that stores the pieces (SQ, SR, SN, etc.)
         public string[,] Squares = new string[3, 3];
 
         public Board()

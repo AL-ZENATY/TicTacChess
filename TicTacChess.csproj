@@ -14,6 +14,7 @@
     <None Remove="Fonts\KevinGhal-RpBEW.ttf" />
     <None Remove="Fonts\SliterD.ttf" />
     <None Remove="Fonts\StarshipShadow.otf" />
+    <None Remove="Fonts\StarshipShadow.ttf" />
     <None Remove="Fonts\SteampunkDemoByMartaVanEck-lwEe.ttf" />
     <None Remove="Videos\goldWin.mp4" />
     <None Remove="Videos\silverWin.mp4" />
@@ -41,6 +42,9 @@
 
   <ItemGroup>
     <Content Include="Fonts\SliterD.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\StarshipShadow.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Videos\goldWin.mp4">

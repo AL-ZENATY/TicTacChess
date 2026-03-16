@@ -4,58 +4,59 @@ namespace TicTacChess
 {
     public class SetupPieceManager
     {
-        private Image wqImage;
-        private Image wrImage;
-        private Image wnImage;
+        private Image sqImage;
+        private Image srImage;
+        private Image snImage;
 
-        private Image bqImage;
-        private Image brImage;
-        private Image bnImage;
+        private Image gqImage;
+        private Image grImage;
+        private Image gnImage;
 
-        private Image wqGlow;
-        private Image wrGlow;
-        private Image wnGlow;
+        private Image sqGlow;
+        private Image srGlow;
+        private Image snGlow;
 
-        private Image bqGlow;
-        private Image brGlow;
-        private Image bnGlow;
+        private Image gqGlow;
+        private Image grGlow;
+        private Image gnGlow;
 
         public SetupPieceManager(
-            Image wqImage, Image wrImage, Image wnImage,
-            Image bqImage, Image brImage, Image bnImage,
-            Image wqGlow, Image wrGlow, Image wnGlow,
-            Image bqGlow, Image brGlow, Image bnGlow)
+            Image sqImage, Image srImage, Image snImage,
+            Image gqImage, Image grImage, Image gnImage,
+            Image sqGlow, Image srGlow, Image snGlow,
+            Image gqGlow, Image grGlow, Image gnGlow)
         {
-            this.wqImage = wqImage;
-            this.wrImage = wrImage;
-            this.wnImage = wnImage;
+            this.sqImage = sqImage;
+            this.srImage = srImage;
+            this.snImage = snImage;
 
-            this.bqImage = bqImage;
-            this.brImage = brImage;
-            this.bnImage = bnImage;
+            this.gqImage = gqImage;
+            this.grImage = grImage;
+            this.gnImage = gnImage;
 
-            this.wqGlow = wqGlow;
-            this.wrGlow = wrGlow;
-            this.wnGlow = wnGlow;
+            this.sqGlow = sqGlow;
+            this.srGlow = srGlow;
+            this.snGlow = snGlow;
 
-            this.bqGlow = bqGlow;
-            this.brGlow = brGlow;
-            this.bnGlow = bnGlow;
+            this.gqGlow = gqGlow;
+            this.grGlow = grGlow;
+            this.gnGlow = gnGlow;
         }
 
+        
         public string GetSelectedSetupPieceCode(bool placingWhite, string selectedSetupPiece)
         {
             if (placingWhite)
             {
-                if (selectedSetupPiece == "1") return "WQ";
-                if (selectedSetupPiece == "2") return "WR";
-                if (selectedSetupPiece == "3") return "WN";
+                if (selectedSetupPiece == "1") return "SQ";
+                if (selectedSetupPiece == "2") return "SR";
+                if (selectedSetupPiece == "3") return "SN";
             }
             else
             {
-                if (selectedSetupPiece == "1") return "BQ";
-                if (selectedSetupPiece == "2") return "BR";
-                if (selectedSetupPiece == "3") return "BN";
+                if (selectedSetupPiece == "1") return "GQ";
+                if (selectedSetupPiece == "2") return "GR";
+                if (selectedSetupPiece == "3") return "GN";
             }
 
             return "";
@@ -65,15 +66,15 @@ namespace TicTacChess
         {
             if (placingWhite)
             {
-                if (setupSlot == "1") return wqGlow;
-                if (setupSlot == "2") return wrGlow;
-                if (setupSlot == "3") return wnGlow;
+                if (setupSlot == "1") return sqGlow;
+                if (setupSlot == "2") return srGlow;
+                if (setupSlot == "3") return snGlow;
             }
             else
             {
-                if (setupSlot == "1") return bqGlow;
-                if (setupSlot == "2") return brGlow;
-                if (setupSlot == "3") return bnGlow;
+                if (setupSlot == "1") return gqGlow;
+                if (setupSlot == "2") return grGlow;
+                if (setupSlot == "3") return gnGlow;
             }
 
             return null;
@@ -83,15 +84,15 @@ namespace TicTacChess
         {
             if (placingWhite)
             {
-                if (setupSlot == "1") return wqImage;
-                if (setupSlot == "2") return wrImage;
-                if (setupSlot == "3") return wnImage;
+                if (setupSlot == "1") return sqImage;
+                if (setupSlot == "2") return srImage;
+                if (setupSlot == "3") return snImage;
             }
             else
             {
-                if (setupSlot == "1") return bqImage;
-                if (setupSlot == "2") return brImage;
-                if (setupSlot == "3") return bnImage;
+                if (setupSlot == "1") return gqImage;
+                if (setupSlot == "2") return grImage;
+                if (setupSlot == "3") return gnImage;
             }
 
             return null;

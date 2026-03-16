@@ -5,17 +5,17 @@
         // Main method: checks if the move is valid depending on the piece type
         public bool IsValidMove(Board board, string piece, int fromRow, int fromCol, int toRow, int toCol)
         {
-            if (piece == "WQ" || piece == "BQ")
+            if (piece == "SQ" || piece == "GQ")
             {
                 return IsValidQueenMove(board, fromRow, fromCol, toRow, toCol);
             }
 
-            if (piece == "WR" || piece == "BR")
+            if (piece == "SR" || piece == "GR")
             {
                 return IsValidRookMove(board, fromRow, fromCol, toRow, toCol);
             }
 
-            if (piece == "WN" || piece == "BN")
+            if (piece == "SN" || piece == "GN")
             {
                 return IsValidKnightMove(fromRow, fromCol, toRow, toCol);
             }
@@ -26,13 +26,13 @@
         // Simple message used in the UI if the move is illegal
         public string GetInvalidMoveMessage(string piece)
         {
-            if (piece == "WQ" || piece == "BQ")
+            if (piece == "SQ" || piece == "GQ")
                 return "Invalid Queen move.";
 
-            if (piece == "WR" || piece == "BR")
+            if (piece == "SR" || piece == "GR")
                 return "Invalid Rook move.";
 
-            if (piece == "WN" || piece == "BN")
+            if (piece == "SN" || piece == "GN")
                 return "Invalid Knight move.";
 
             return "Invalid move.";

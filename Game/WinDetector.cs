@@ -12,11 +12,11 @@
                     board.Squares[r, 1] != "" && board.Squares[r, 1].StartsWith(player) &&
                     board.Squares[r, 2] != "" && board.Squares[r, 2].StartsWith(player))
                 {
-                    if (player == "W" && r == 2)
+                    if (player == "S" && r == 2)
                     {
                         // White bottom row does not count as a win
                     }
-                    else if (player == "B" && r == 0)
+                    else if (player == "G" && r == 0)
                     {
                         // Black top row does not count as a win
                     }

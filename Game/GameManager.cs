@@ -7,7 +7,7 @@
 
         // game state flags
         public bool SetupPhase { get; private set; }
-        public bool PlacingWhite { get; private set; }
+        public bool PlacingWhite { get; set; }
         public bool WinCheckActive { get; private set; }
         public bool GameOver { get; private set; }
 
@@ -23,8 +23,8 @@
         public string CurrentPlayer { get; private set; }
 
         // setup order for each side
-        private string[] whiteToPlace = { "WQ", "WR", "WN" };
-        private string[] blackToPlace = { "BQ", "BR", "BN" };
+        private string[] whiteToPlace = { "SQ", "SR", "SN" };
+        private string[] blackToPlace = { "GQ", "GR", "GN" };
 
         public GameManager(Board board)
         {
@@ -48,7 +48,7 @@
             SelectedRow = -1;
             SelectedCol = -1;
 
-            CurrentPlayer = "W";
+            CurrentPlayer = "S";
         }
 
         public bool HasSelectedPiece()
@@ -90,22 +90,24 @@
             if (PlacingWhite)
             {
                 WhiteIndex++;
-
-                // when white is done, switch to black setup
-                if (WhiteIndex >= whiteToPlace.Length)
-                {
-                    PlacingWhite = false;
-                }
             }
             else
             {
                 BlackIndex++;
+            }
 
-                // when black is done, setup phase ends
-                if (BlackIndex >= blackToPlace.Length)
-                {
-                    SetupPhase = false;
-                }
+            // only end setup when BOTH sides are finished
+            if (WhiteIndex >= whiteToPlace.Length && BlackIndex >= blackToPlace.Length)
+            {
+                SetupPhase = false;
+            }
+            else if (WhiteIndex >= whiteToPlace.Length)
+            {
+                PlacingWhite = false;
+            }
+            else if (BlackIndex >= blackToPlace.Length)
+            {
+                PlacingWhite = true;
             }
         }
 
@@ -134,13 +136,13 @@
         public void SwitchTurn()
         {
             // swap turns after a valid move
-            if (CurrentPlayer == "W")
+            if (CurrentPlayer == "S")
             {
-                CurrentPlayer = "B";
+                CurrentPlayer = "G";
             }
             else
             {
-                CurrentPlayer = "W";
+                CurrentPlayer = "S";
             }
         }
 

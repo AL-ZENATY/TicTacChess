@@ -42,7 +42,6 @@ namespace TicTacChess
             btn20 = new Button();
             btn21 = new Button();
             btn22 = new Button();
-            lblStatusZy = new Label();
             btnRestartZy = new Button();
             picLampGoldZy = new PictureBox();
             picLampSilverZy = new PictureBox();
@@ -53,6 +52,10 @@ namespace TicTacChess
             picSetup3 = new PictureBox();
             videoPlayerZy = new AxWMPLib.AxWindowsMediaPlayer();
             videoHideTimerZy = new System.Windows.Forms.Timer(components);
+            pbxTagZy = new PictureBox();
+            lblStatusZy = new Label();
+            btnGoldSetupZy = new Button();
+            btnSilverSetupZy = new Button();
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLampGoldZy).BeginInit();
@@ -63,6 +66,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)picSetup2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picSetup3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbxTagZy).BeginInit();
             SuspendLayout();
             // 
             // pnlBoardZy
@@ -281,24 +285,12 @@ namespace TicTacChess
             btn22.MouseEnter += BoardCell_MouseEnter;
             btn22.MouseLeave += BoardCell_MouseLeave;
             // 
-            // lblStatusZy
-            // 
-            lblStatusZy.BackColor = Color.Transparent;
-            lblStatusZy.Font = new Font("Copperplate Gothic Light", 10F);
-            lblStatusZy.ForeColor = Color.Peru;
-            lblStatusZy.Location = new Point(410, 644);
-            lblStatusZy.Name = "lblStatusZy";
-            lblStatusZy.Size = new Size(207, 36);
-            lblStatusZy.TabIndex = 1;
-            lblStatusZy.Text = "label1";
-            lblStatusZy.TextAlign = ContentAlignment.MiddleCenter;
-            lblStatusZy.UseMnemonic = false;
-            // 
             // btnRestartZy
             // 
             btnRestartZy.BackColor = Color.Transparent;
             btnRestartZy.BackgroundImage = Properties.Resources.resetBtnHover;
             btnRestartZy.BackgroundImageLayout = ImageLayout.Stretch;
+            btnRestartZy.Cursor = Cursors.Hand;
             btnRestartZy.FlatAppearance.BorderSize = 0;
             btnRestartZy.FlatAppearance.MouseDownBackColor = Color.Transparent;
             btnRestartZy.FlatAppearance.MouseOverBackColor = Color.Transparent;
@@ -409,12 +401,11 @@ namespace TicTacChess
             // 
             // videoPlayerZy
             // 
-            videoPlayerZy.Dock = DockStyle.Fill;
             videoPlayerZy.Enabled = true;
-            videoPlayerZy.Location = new Point(0, 0);
+            videoPlayerZy.Location = new Point(882, 647);
             videoPlayerZy.Name = "videoPlayerZy";
             videoPlayerZy.OcxState = (AxHost.State)resources.GetObject("videoPlayerZy.OcxState");
-            videoPlayerZy.Size = new Size(1145, 780);
+            videoPlayerZy.Size = new Size(263, 133);
             videoPlayerZy.TabIndex = 15;
             videoPlayerZy.Visible = false;
             // 
@@ -423,6 +414,67 @@ namespace TicTacChess
             videoHideTimerZy.Interval = 3000;
             videoHideTimerZy.Tick += videoHideTimerZy_Tick;
             // 
+            // pbxTagZy
+            // 
+            pbxTagZy.BackColor = Color.Transparent;
+            pbxTagZy.BackgroundImage = Properties.Resources.tag;
+            pbxTagZy.BackgroundImageLayout = ImageLayout.Zoom;
+            pbxTagZy.Location = new Point(389, 622);
+            pbxTagZy.Name = "pbxTagZy";
+            pbxTagZy.Size = new Size(306, 79);
+            pbxTagZy.SizeMode = PictureBoxSizeMode.CenterImage;
+            pbxTagZy.TabIndex = 16;
+            pbxTagZy.TabStop = false;
+            // 
+            // lblStatusZy
+            // 
+            lblStatusZy.BackColor = Color.Transparent;
+            lblStatusZy.Font = new Font("Copperplate Gothic Light", 10F);
+            lblStatusZy.ForeColor = Color.Peru;
+            lblStatusZy.Location = new Point(404, 647);
+            lblStatusZy.Name = "lblStatusZy";
+            lblStatusZy.Size = new Size(276, 36);
+            lblStatusZy.TabIndex = 1;
+            lblStatusZy.Text = "\"\"";
+            lblStatusZy.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatusZy.UseMnemonic = false;
+            // 
+            // btnGoldSetupZy
+            // 
+            btnGoldSetupZy.BackColor = Color.Transparent;
+            btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
+            btnGoldSetupZy.BackgroundImageLayout = ImageLayout.Stretch;
+            btnGoldSetupZy.Cursor = Cursors.Hand;
+            btnGoldSetupZy.FlatAppearance.BorderSize = 0;
+            btnGoldSetupZy.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnGoldSetupZy.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnGoldSetupZy.FlatStyle = FlatStyle.Flat;
+            btnGoldSetupZy.ForeColor = Color.Transparent;
+            btnGoldSetupZy.Location = new Point(886, 11);
+            btnGoldSetupZy.Name = "btnGoldSetupZy";
+            btnGoldSetupZy.Size = new Size(128, 50);
+            btnGoldSetupZy.TabIndex = 17;
+            btnGoldSetupZy.UseVisualStyleBackColor = false;
+            btnGoldSetupZy.Click += btnGoldSetupZy_Click;
+            // 
+            // btnSilverSetupZy
+            // 
+            btnSilverSetupZy.BackColor = Color.Transparent;
+            btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
+            btnSilverSetupZy.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSilverSetupZy.Cursor = Cursors.Hand;
+            btnSilverSetupZy.FlatAppearance.BorderSize = 0;
+            btnSilverSetupZy.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnSilverSetupZy.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnSilverSetupZy.FlatStyle = FlatStyle.Flat;
+            btnSilverSetupZy.ForeColor = Color.Transparent;
+            btnSilverSetupZy.Location = new Point(1012, 10);
+            btnSilverSetupZy.Name = "btnSilverSetupZy";
+            btnSilverSetupZy.Size = new Size(132, 51);
+            btnSilverSetupZy.TabIndex = 18;
+            btnSilverSetupZy.UseVisualStyleBackColor = false;
+            btnSilverSetupZy.Click += btnSilverSetupZy_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -430,6 +482,8 @@ namespace TicTacChess
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(btnSilverSetupZy);
+            Controls.Add(btnGoldSetupZy);
             Controls.Add(videoPlayerZy);
             Controls.Add(picSetup3);
             Controls.Add(picSetup2);
@@ -440,6 +494,7 @@ namespace TicTacChess
             Controls.Add(picLampGoldZy);
             Controls.Add(btnRestartZy);
             Controls.Add(lblStatusZy);
+            Controls.Add(pbxTagZy);
             Controls.Add(pnlBoardZy);
             Name = "Form1";
             Text = "Form1";
@@ -453,6 +508,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)picSetup2).EndInit();
             ((System.ComponentModel.ISupportInitialize)picSetup3).EndInit();
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbxTagZy).EndInit();
             ResumeLayout(false);
         }
 
@@ -469,7 +525,6 @@ namespace TicTacChess
         private Button btn20;
         private Button btn21;
         private Button btn22;
-        private Label lblStatusZy;
         private Button btnRestartZy;
         private PictureBox picLampGoldZy;
         private PictureBox picLampSilverZy;
@@ -481,5 +536,9 @@ namespace TicTacChess
         private AxWMPLib.AxWindowsMediaPlayer videoPlayerZy;
         private System.Windows.Forms.Timer videoHideTimerZy;
         private EventHandler videoPlayerZy_PlayerDockedStateChange;
+        private PictureBox pbxTagZy;
+        private Label lblStatusZy;
+        private Button btnGoldSetupZy;
+        private Button btnSilverSetupZy;
     }
 }
