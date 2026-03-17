@@ -143,7 +143,7 @@ namespace TicTacChess
             // Stop all input if the game already ended
             if (gameManager.GameOver)
             {
-                lblStatusZy.Text = "The game is over.";
+                lblStatusZy.Text = "No moves - Game finished";
                 return;
             }
 
@@ -153,27 +153,27 @@ namespace TicTacChess
                 // A piece can only be placed on an empty square
                 if (board.Squares[row, col] != "")
                 {
-                    lblStatusZy.Text = "That square is taken.";
+                    lblStatusZy.Text = "Square already occupied";
                     return;
                 }
 
                 // White must place on bottom row, Black on top row
                 if (gameManager.PlacingWhite && row != 2)
                 {
-                    lblStatusZy.Text = "Silver must use bottom row.";
+                    lblStatusZy.Text = "Place Silver at the bottom";
                     return;
                 }
 
                 if (!gameManager.PlacingWhite && row != 0)
                 {
-                    lblStatusZy.Text = "Gold must use top row.";
+                    lblStatusZy.Text = "Place Gold at the top";
                     return;
                 }
 
                 // Get the next piece, place it, and show it on the button
                 if (selectedSetupPiece == "")
                 {
-                    lblStatusZy.Text = "Select a setup piece.";
+                    lblStatusZy.Text = "Choose setup piece first";
                     return;
                 }
 
@@ -204,26 +204,23 @@ namespace TicTacChess
                 {
                     ClearHighlights();
                     UpdateTurnLamps();
-                    lblStatusZy.Text = "Setup complete. Enjoy!";
+                    lblStatusZy.Text = "Setup complete - BEGIN!";
                 }
                 else if (gameManager.IsWhiteSetupFinished() && gameManager.BlackIndex == 0)
                 {
                     ShowSetupPieces();
-                    lblStatusZy.Text = "Silver done. Place gold.";
+                    lblStatusZy.Text = "Silver finished - Place Gold";
+                }
+                else if (gameManager.BlackIndex >= 3 && gameManager.WhiteIndex < 3)
+                {
+                    ShowSetupPieces();
+                    lblStatusZy.Text = "Gold finished - Place Silver";
                 }
                 else
                 {
-                    if (gameManager.PlacingWhite)
-                    {
-                        lblStatusZy.Text = $"{piece} Placed. Place next silver piece.";
-                    }
-                    else
-                    {
-                        lblStatusZy.Text = $"{piece} Placed. Place next gold piece.";
-                    }
+                    lblStatusZy.Text = $"'{piece}' Placed - Next piece";
                 }
-
-                return;
+                    return;
             }
 
             // Game phase: no piece selected yet
@@ -234,31 +231,28 @@ namespace TicTacChess
                 // Player must click a square that contains a piece
                 if (piece == "")
                 {
-                    lblStatusZy.Text = "Select a piece first.";
+                    lblStatusZy.Text = "Select a piece first";
                     return;
                 }
 
                 // Player can only select their own piece
                 if (!piece.StartsWith(gameManager.CurrentPlayer))
                 {
-                    lblStatusZy.Text = "That is not your piece.";
+                    lblStatusZy.Text = "That is not your piece";
                     return;
                 }
 
                 // Save the selected piece position and show legal move highlights
-                gameManager.SelectPiece(row, col);
-                ClearHighlights();
-                ShowLegalMoves(row, col);
-                lblStatusZy.Text = $"Selected piece at ({row},{col})";
+                SelectBoardPiece(row, col);
             }
             else
             {
-                // Clicking the selected piece again cancels the selection
-                if (row == gameManager.SelectedRow && col == gameManager.SelectedCol)
+                // If player clicks another of their own pieces, switch selection
+                string clickedPiece = board.Squares[row, col];
+
+                if (clickedPiece != "" && clickedPiece.StartsWith(gameManager.CurrentPlayer))
                 {
-                    lblStatusZy.Text = "Selection canceled.";
-                    gameManager.ClearSelection();
-                    ClearHighlights();
+                    SelectBoardPiece(row, col);
                     return;
                 }
 
@@ -305,34 +299,16 @@ namespace TicTacChess
 
                     if (movedPlayer == "S")
                     {
-                        lblStatusZy.Text = "Silver wins!";
-
-                        videoPlayerZy.URL = "Videos/silverWin.mp4";
-                        videoPlayerZy.Visible = true;
-                        videoPlayerZy.uiMode = "none";
-                        videoPlayerZy.Ctlcontrols.play();
-
-                        videoHideTimerZy.Stop();
-                        videoHideTimerZy.Interval = 8000;
-                        videoHideTimerZy.Start();
+                        ShowWinVideo("Silver Player Wins!", "Videos/silverWin.mp4");
                     }
                     else
                     {
-                        lblStatusZy.Text = "Gold wins!";
-
-                        videoPlayerZy.URL = "Videos/goldWin.mp4";
-                        videoPlayerZy.Visible = true;
-                        videoPlayerZy.uiMode = "none";
-                        videoPlayerZy.Ctlcontrols.play();
-
-                        videoHideTimerZy.Stop();
-                        videoHideTimerZy.Interval = 8000;
-                        videoHideTimerZy.Start();
+                        ShowWinVideo("Gold Player Wins!", "Videos/goldWin.mp4");
                     }
                 }
                 else
                 {
-                    lblStatusZy.Text = $"Moved {selectedPiece} to ({row},{col}). {gameManager.CurrentPlayer}'s turn.";
+                    lblStatusZy.Text = $"'{selectedPiece}' to '{row},{col}' - Next Player";
                 }
 
                 // Clear selection after the move is finished
@@ -386,6 +362,35 @@ namespace TicTacChess
             if (piece == "GN") return gnGlow;
 
             return null;
+        }
+
+        private void SelectBoardPiece(int row, int col)
+        {
+            gameManager.SelectPiece(row, col);
+            ClearHighlights();
+            ShowLegalMoves(row, col);
+            lblStatusZy.Text = $"Selected piece at '{row},{col}'";
+        }
+
+        private void ShowWinVideo(string winnerText, string videoPath)
+        {
+            lblStatusZy.Text = winnerText;
+
+            videoPlayerZy.URL = videoPath;
+            videoPlayerZy.Visible = true;
+            videoPlayerZy.uiMode = "none";
+            videoPlayerZy.Ctlcontrols.play();
+
+            videoHideTimerZy.Stop();
+            videoHideTimerZy.Interval = 8000;
+            videoHideTimerZy.Start();
+        }
+
+        private void SelectSetupPiece(string pieceNumber, string pieceName)
+        {
+            selectedSetupPiece = pieceNumber;
+            ShowSetupSquares();
+            lblStatusZy.Text = $"Setup piece '{pieceName}' Selected";
         }
 
 
@@ -476,23 +481,17 @@ namespace TicTacChess
 
         private void picSetup1_Click(object sender, EventArgs e)
         {
-            selectedSetupPiece = "1";
-            ShowSetupSquares();
-            lblStatusZy.Text = "Setup piece 'Queen' Selected.";
+            SelectSetupPiece("1", "Queen");
         }
 
         private void picSetup2_Click(object sender, EventArgs e)
         {
-            selectedSetupPiece = "2";
-            ShowSetupSquares();
-            lblStatusZy.Text = "Setup piece 'Rook' Selected.";
+            SelectSetupPiece("2", "Rook");
         }
 
         private void picSetup3_Click(object sender, EventArgs e)
         {
-            selectedSetupPiece = "3";
-            ShowSetupSquares();
-            lblStatusZy.Text = "Setup piece 'Knight' Selected.";
+            SelectSetupPiece("3", "Knight");
         }
 
         private void ShowSetupPieces()
@@ -697,7 +696,7 @@ namespace TicTacChess
             }
 
             ShowSetupPieces();
-            lblStatusZy.Text = "Game has been reset.";
+            lblStatusZy.Text = "Game has been reset";
             videoPlayerZy.Visible = false;
 
             btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
@@ -747,12 +746,6 @@ namespace TicTacChess
         // =========================
         // Video timer methods
         // =========================
-
-        private void videoHideTimer_Tick(object sender, EventArgs e)
-        {
-            videoHideTimerZy.Stop();
-            videoPlayerZy.Visible = false;
-        }
 
         private void videoHideTimerZy_Tick(object sender, EventArgs e)
         {
