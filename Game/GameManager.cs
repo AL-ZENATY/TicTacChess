@@ -23,8 +23,8 @@
         public string CurrentPlayer { get; private set; }
 
         // setup order for each side
-        private string[] whiteToPlace = { "SQ", "SR", "SN" };
-        private string[] blackToPlace = { "GQ", "GR", "GN" };
+        private string[] whiteToPlace = { "SQ", "SR", "SN", "SK" };
+        private string[] blackToPlace = { "GQ", "GR", "GN", "GK" };
 
         public GameManager(Board board)
         {

@@ -58,6 +58,7 @@ namespace TicTacChess
             btnSilverSetupZy = new Button();
             btnZeroRobotZy = new Button();
             pictureBox1 = new PictureBox();
+            picSetup4 = new PictureBox();
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLampGoldZy).BeginInit();
@@ -70,6 +71,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbxTagZy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup4).BeginInit();
             SuspendLayout();
             // 
             // pnlBoardZy
@@ -504,6 +506,21 @@ namespace TicTacChess
             pictureBox1.TabIndex = 20;
             pictureBox1.TabStop = false;
             // 
+            // picSetup4
+            // 
+            picSetup4.BackColor = Color.Transparent;
+            picSetup4.BackgroundImage = Properties.Resources.spK;
+            picSetup4.BackgroundImageLayout = ImageLayout.Zoom;
+            picSetup4.Cursor = Cursors.Hand;
+            picSetup4.Location = new Point(854, 299);
+            picSetup4.Name = "picSetup4";
+            picSetup4.Size = new Size(127, 176);
+            picSetup4.SizeMode = PictureBoxSizeMode.Zoom;
+            picSetup4.TabIndex = 21;
+            picSetup4.TabStop = false;
+            picSetup4.Visible = false;
+            picSetup4.Click += picSetup4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -511,6 +528,7 @@ namespace TicTacChess
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(picSetup4);
             Controls.Add(pictureBox1);
             Controls.Add(videoPlayerZy);
             Controls.Add(btnSilverSetupZy);
@@ -541,6 +559,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbxTagZy).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picSetup4).EndInit();
             ResumeLayout(false);
         }
 
@@ -574,5 +593,6 @@ namespace TicTacChess
         private Button btnSilverSetupZy;
         private Button btnZeroRobotZy;
         private PictureBox pictureBox1;
+        private PictureBox picSetup4;
     }
 }

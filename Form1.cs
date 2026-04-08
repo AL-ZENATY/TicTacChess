@@ -455,6 +455,7 @@ namespace TicTacChess
             picSetup1.Visible = true;
             picSetup2.Visible = true;
             picSetup3.Visible = true;
+            picSetup4.Visible = true;
 
             if (gameManager.PlacingWhite)
             {
@@ -464,6 +465,7 @@ namespace TicTacChess
                 picSetup1.BackgroundImage = pieceImages.GetPieceImage("SQ");
                 picSetup2.BackgroundImage = pieceImages.GetPieceImage("SR");
                 picSetup3.BackgroundImage = pieceImages.GetPieceImage("SN");
+                picSetup4.BackgroundImage = pieceImages.GetPieceImage("SK");
 
                 picSetup1.Visible = !silverPiece1Used;
                 picSetup2.Visible = !silverPiece2Used;
@@ -477,6 +479,7 @@ namespace TicTacChess
                 picSetup1.BackgroundImage = pieceImages.GetPieceImage("GQ");
                 picSetup2.BackgroundImage = pieceImages.GetPieceImage("GR");
                 picSetup3.BackgroundImage = pieceImages.GetPieceImage("GN");
+                picSetup4.BackgroundImage = pieceImages.GetPieceImage("GK");
 
                 picSetup1.Visible = !goldPiece1Used;
                 picSetup2.Visible = !goldPiece2Used;
@@ -494,12 +497,14 @@ namespace TicTacChess
                 if (selectedSetupPiece == "1") return "SQ";
                 if (selectedSetupPiece == "2") return "SR";
                 if (selectedSetupPiece == "3") return "SN";
+                if (selectedSetupPiece == "4") return "SK";
             }
             else
             {
                 if (selectedSetupPiece == "1") return "GQ";
                 if (selectedSetupPiece == "2") return "GR";
                 if (selectedSetupPiece == "3") return "GN";
+                if (selectedSetupPiece == "4") return "GK";
             }
 
             return "";
@@ -534,6 +539,12 @@ namespace TicTacChess
         {
             // Select the third setup piece
             SelectSetupPiece("3", "Knight");
+        }
+
+        private void picSetup4_Click(object sender, EventArgs e)
+        {
+            // Select the fourth setup piece (King)
+            SelectSetupPiece("4", "King");
         }
 
 
