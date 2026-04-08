@@ -2,7 +2,7 @@
 
 namespace TicTacChess
 {
-    public class SetupPieceManager
+    public class PieceImageManager
     {
         private Image sqImage;
         private Image srImage;
@@ -20,46 +20,49 @@ namespace TicTacChess
         private Image grGlow;
         private Image gnGlow;
 
-        public SetupPieceManager(
-            Image sqImage, Image srImage, Image snImage,
-            Image gqImage, Image grImage, Image gnImage,
-            Image sqGlow, Image srGlow, Image snGlow,
-            Image gqGlow, Image grGlow, Image gnGlow)
+        public PieceImageManager()
         {
-            this.sqImage = sqImage;
-            this.srImage = srImage;
-            this.snImage = snImage;
+            sqImage = Properties.Resources.spQ;
+            srImage = Properties.Resources.spR;
+            snImage = Properties.Resources.spK;
 
-            this.gqImage = gqImage;
-            this.grImage = grImage;
-            this.gnImage = gnImage;
+            gqImage = Properties.Resources.gpQ;
+            grImage = Properties.Resources.gpR;
+            gnImage = Properties.Resources.gpK;
 
-            this.sqGlow = sqGlow;
-            this.srGlow = srGlow;
-            this.snGlow = snGlow;
+            sqGlow = Properties.Resources.spQH;
+            srGlow = Properties.Resources.spRH;
+            snGlow = Properties.Resources.spKH;
 
-            this.gqGlow = gqGlow;
-            this.grGlow = grGlow;
-            this.gnGlow = gnGlow;
+            gqGlow = Properties.Resources.gpQH;
+            grGlow = Properties.Resources.gpRH;
+            gnGlow = Properties.Resources.gpKH;
         }
 
-        
-        public string GetSelectedSetupPieceCode(bool placingWhite, string selectedSetupPiece)
+        public Image GetPieceImage(string piece)
         {
-            if (placingWhite)
-            {
-                if (selectedSetupPiece == "1") return "SQ";
-                if (selectedSetupPiece == "2") return "SR";
-                if (selectedSetupPiece == "3") return "SN";
-            }
-            else
-            {
-                if (selectedSetupPiece == "1") return "GQ";
-                if (selectedSetupPiece == "2") return "GR";
-                if (selectedSetupPiece == "3") return "GN";
-            }
+            if (piece == "SQ") return sqImage;
+            if (piece == "SR") return srImage;
+            if (piece == "SN") return snImage;
 
-            return "";
+            if (piece == "GQ") return gqImage;
+            if (piece == "GR") return grImage;
+            if (piece == "GN") return gnImage;
+
+            return null;
+        }
+
+        public Image GetGlowImage(string piece)
+        {
+            if (piece == "SQ") return sqGlow;
+            if (piece == "SR") return srGlow;
+            if (piece == "SN") return snGlow;
+
+            if (piece == "GQ") return gqGlow;
+            if (piece == "GR") return grGlow;
+            if (piece == "GN") return gnGlow;
+
+            return null;
         }
 
         public Image GetSetupGlowImage(bool placingWhite, string setupSlot)

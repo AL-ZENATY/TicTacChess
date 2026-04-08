@@ -56,6 +56,8 @@ namespace TicTacChess
             lblStatusZy = new Label();
             btnGoldSetupZy = new Button();
             btnSilverSetupZy = new Button();
+            btnZeroRobotZy = new Button();
+            pictureBox1 = new PictureBox();
             pnlBoardZy.SuspendLayout();
             tblBoardZy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLampGoldZy).BeginInit();
@@ -67,6 +69,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)picSetup3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbxTagZy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // pnlBoardZy
@@ -160,6 +163,7 @@ namespace TicTacChess
             btn02.Size = new Size(155, 144);
             btn02.TabIndex = 2;
             btn02.Tag = "0,2";
+            btn02.Text = " ";
             btn02.UseVisualStyleBackColor = false;
             btn02.Click += BoardCell_Click;
             btn02.MouseEnter += BoardCell_MouseEnter;
@@ -309,7 +313,7 @@ namespace TicTacChess
             picLampGoldZy.BackColor = Color.Transparent;
             picLampGoldZy.BackgroundImage = Properties.Resources.lightOff;
             picLampGoldZy.BackgroundImageLayout = ImageLayout.Stretch;
-            picLampGoldZy.Location = new Point(137, 131);
+            picLampGoldZy.Location = new Point(807, 159);
             picLampGoldZy.Name = "picLampGoldZy";
             picLampGoldZy.Size = new Size(41, 94);
             picLampGoldZy.TabIndex = 4;
@@ -320,7 +324,7 @@ namespace TicTacChess
             picLampSilverZy.BackColor = Color.Transparent;
             picLampSilverZy.BackgroundImage = Properties.Resources.lightOff;
             picLampSilverZy.BackgroundImageLayout = ImageLayout.Stretch;
-            picLampSilverZy.Location = new Point(137, 366);
+            picLampSilverZy.Location = new Point(807, 410);
             picLampSilverZy.Name = "picLampSilverZy";
             picLampSilverZy.Size = new Size(41, 94);
             picLampSilverZy.TabIndex = 5;
@@ -329,22 +333,22 @@ namespace TicTacChess
             // pbGoldZy
             // 
             pbGoldZy.BackColor = Color.Transparent;
-            pbGoldZy.BackgroundImage = Properties.Resources.tagGold;
+            pbGoldZy.BackgroundImage = Properties.Resources.tagGoldshort;
             pbGoldZy.BackgroundImageLayout = ImageLayout.Stretch;
-            pbGoldZy.Location = new Point(93, 231);
+            pbGoldZy.Location = new Point(807, 259);
             pbGoldZy.Name = "pbGoldZy";
-            pbGoldZy.Size = new Size(136, 41);
+            pbGoldZy.Size = new Size(50, 34);
             pbGoldZy.TabIndex = 6;
             pbGoldZy.TabStop = false;
             // 
             // pbSilverZy
             // 
             pbSilverZy.BackColor = Color.Transparent;
-            pbSilverZy.BackgroundImage = Properties.Resources.tagSilver;
+            pbSilverZy.BackgroundImage = Properties.Resources.tagSilvershort;
             pbSilverZy.BackgroundImageLayout = ImageLayout.Stretch;
-            pbSilverZy.Location = new Point(93, 466);
+            pbSilverZy.Location = new Point(807, 510);
             pbSilverZy.Name = "pbSilverZy";
-            pbSilverZy.Size = new Size(136, 41);
+            pbSilverZy.Size = new Size(50, 34);
             pbSilverZy.TabIndex = 7;
             pbSilverZy.TabStop = false;
             // 
@@ -401,12 +405,11 @@ namespace TicTacChess
             // 
             // videoPlayerZy
             // 
-            videoPlayerZy.Dock = DockStyle.Fill;
             videoPlayerZy.Enabled = true;
-            videoPlayerZy.Location = new Point(0, 0);
+            videoPlayerZy.Location = new Point(874, 622);
             videoPlayerZy.Name = "videoPlayerZy";
             videoPlayerZy.OcxState = (AxHost.State)resources.GetObject("videoPlayerZy.OcxState");
-            videoPlayerZy.Size = new Size(1145, 780);
+            videoPlayerZy.Size = new Size(259, 133);
             videoPlayerZy.TabIndex = 15;
             videoPlayerZy.Visible = false;
             // 
@@ -476,6 +479,31 @@ namespace TicTacChess
             btnSilverSetupZy.UseVisualStyleBackColor = false;
             btnSilverSetupZy.Click += btnSilverSetupZy_Click;
             // 
+            // btnZeroRobotZy
+            // 
+            btnZeroRobotZy.BackColor = Color.Transparent;
+            btnZeroRobotZy.BackgroundImage = Properties.Resources.zeroOff;
+            btnZeroRobotZy.BackgroundImageLayout = ImageLayout.Zoom;
+            btnZeroRobotZy.FlatAppearance.BorderSize = 0;
+            btnZeroRobotZy.FlatStyle = FlatStyle.Flat;
+            btnZeroRobotZy.Location = new Point(74, 200);
+            btnZeroRobotZy.Name = "btnZeroRobotZy";
+            btnZeroRobotZy.Size = new Size(161, 224);
+            btnZeroRobotZy.TabIndex = 19;
+            btnZeroRobotZy.UseVisualStyleBackColor = false;
+            btnZeroRobotZy.Click += btnZeroRobotZy_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackgroundImage = Properties.Resources.zeroSign;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(95, 133);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(131, 61);
+            pictureBox1.TabIndex = 20;
+            pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -483,6 +511,7 @@ namespace TicTacChess
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1145, 780);
+            Controls.Add(pictureBox1);
             Controls.Add(videoPlayerZy);
             Controls.Add(btnSilverSetupZy);
             Controls.Add(btnGoldSetupZy);
@@ -497,6 +526,7 @@ namespace TicTacChess
             Controls.Add(lblStatusZy);
             Controls.Add(pbxTagZy);
             Controls.Add(pnlBoardZy);
+            Controls.Add(btnZeroRobotZy);
             Name = "Form1";
             Text = "Form1";
             pnlBoardZy.ResumeLayout(false);
@@ -510,6 +540,7 @@ namespace TicTacChess
             ((System.ComponentModel.ISupportInitialize)picSetup3).EndInit();
             ((System.ComponentModel.ISupportInitialize)videoPlayerZy).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbxTagZy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -541,5 +572,7 @@ namespace TicTacChess
         private Label lblStatusZy;
         private Button btnGoldSetupZy;
         private Button btnSilverSetupZy;
+        private Button btnZeroRobotZy;
+        private PictureBox pictureBox1;
     }
 }

@@ -21,36 +21,25 @@ namespace TicTacChess
         // Checks if a player has won
         private WinDetector winDetector = new WinDetector();
 
+        // Handles all status text messages
         private StatusMessageManager status = new StatusMessageManager();
+
+        // Handles all piece and glow images
+        private PieceImageManager pieceImages;
+
+        // Handles communication with the Arduino
+        private ArduinoManager arduino;
+        private RobotController robot;
+        private bool useRobot = true;
 
 
         // =========================
-        // Board and piece images
+        // UI images
         // =========================
 
         // Turn lamp images
         private Image lampOn;
         private Image lampOff;
-
-        // Normal white piece images
-        private Image sqImage;
-        private Image srImage;
-        private Image snImage;
-
-        // Normal black piece images
-        private Image gqImage;
-        private Image grImage;
-        private Image gnImage;
-
-        // Glow white piece images
-        private Image sqGlow;
-        private Image srGlow;
-        private Image snGlow;
-
-        // Glow black piece images
-        private Image gqGlow;
-        private Image grGlow;
-        private Image gnGlow;
 
         // Highlight image for legal setup and move squares
         private Image highlightImage;
@@ -69,10 +58,12 @@ namespace TicTacChess
         // Stores which setup piece is currently selected
         private string selectedSetupPiece = "";
 
+        // Tracks which silver setup pieces are already used
         private bool silverPiece1Used = false;
         private bool silverPiece2Used = false;
         private bool silverPiece3Used = false;
 
+        // Tracks which gold setup pieces are already used
         private bool goldPiece1Used = false;
         private bool goldPiece2Used = false;
         private bool goldPiece3Used = false;
@@ -92,21 +83,15 @@ namespace TicTacChess
 
             highlightImage = Properties.Resources.highlight;
 
-            sqImage = Properties.Resources.spQ;
-            srImage = Properties.Resources.spR;
-            snImage = Properties.Resources.spK;
+            pieceImages = new PieceImageManager();
+            arduino = new ArduinoManager();
+            arduino.OnArduinoReady = OnArduinoReady;
+            robot = new RobotController(arduino);
 
-            gqImage = Properties.Resources.gpQ;
-            grImage = Properties.Resources.gpR;
-            gnImage = Properties.Resources.gpK;
-
-            sqGlow = Properties.Resources.spQH;
-            srGlow = Properties.Resources.spRH;
-            snGlow = Properties.Resources.spKH;
-
-            gqGlow = Properties.Resources.gpQH;
-            grGlow = Properties.Resources.gpRH;
-            gnGlow = Properties.Resources.gpKH;
+            if (useRobot)
+            {
+                arduino.Connect();
+            }
 
             lblStatusZy.Parent = pbxTagZy;
             lblStatusZy.BackColor = Color.Transparent;
@@ -182,7 +167,7 @@ namespace TicTacChess
                 string piece = GetSelectedSetupPieceCode();
 
                 board.Squares[row, col] = piece;
-                btn.BackgroundImage = GetPieceImage(piece);
+                btn.BackgroundImage = pieceImages.GetPieceImage(piece);
                 btn.BackgroundImageLayout = ImageLayout.Zoom;
                 btn.Text = "";
 
@@ -222,7 +207,7 @@ namespace TicTacChess
                 {
                     lblStatusZy.Text = status.PiecePlacedMessage(piece);
                 }
-                    return;
+                return;
             }
 
             // Game phase: no piece selected yet
@@ -277,10 +262,16 @@ namespace TicTacChess
 
                 // Move the piece in the board data
                 gameManager.MovePiece(row, col);
+
+                if (useRobot)
+                {
+                    robot.StartMove(gameManager.SelectedRow, gameManager.SelectedCol, row, col);
+                }
+
                 ClearHighlights();
 
                 // Show the moved piece on the new button
-                btn.BackgroundImage = GetPieceImage(selectedPiece);
+                btn.BackgroundImage = pieceImages.GetPieceImage(selectedPiece);
                 btn.BackgroundImageLayout = ImageLayout.Zoom;
                 btn.Text = "";
 
@@ -340,34 +331,9 @@ namespace TicTacChess
             return null;
         }
 
-        private Image GetPieceImage(string piece)
-        {
-            if (piece == "SQ") return sqImage;
-            if (piece == "SR") return srImage;
-            if (piece == "SN") return snImage;
-
-            if (piece == "GQ") return gqImage;
-            if (piece == "GR") return grImage;
-            if (piece == "GN") return gnImage;
-
-            return null;
-        }
-
-        private Image GetGlowImage(string piece)
-        {
-            if (piece == "SQ") return sqGlow;
-            if (piece == "SR") return srGlow;
-            if (piece == "SN") return snGlow;
-
-            if (piece == "GQ") return gqGlow;
-            if (piece == "GR") return grGlow;
-            if (piece == "GN") return gnGlow;
-
-            return null;
-        }
-
         private void SelectBoardPiece(int row, int col)
         {
+            // Select a board piece and show its legal moves
             gameManager.SelectPiece(row, col);
             ClearHighlights();
             ShowLegalMoves(row, col);
@@ -376,6 +342,7 @@ namespace TicTacChess
 
         private void ShowWinVideo(string winnerText, string videoPath)
         {
+            // Show the winner text and play the correct win video
             lblStatusZy.Text = winnerText;
 
             videoPlayerZy.URL = videoPath;
@@ -390,6 +357,7 @@ namespace TicTacChess
 
         private void SelectSetupPiece(string pieceNumber, string pieceName)
         {
+            // Save which setup piece was chosen and highlight valid setup squares
             selectedSetupPiece = pieceNumber;
             ShowSetupSquares();
             lblStatusZy.Text = status.SetupPieceSelectedMessage(pieceName);
@@ -481,21 +449,6 @@ namespace TicTacChess
         // Setup piece methods
         // =========================
 
-        private void picSetup1_Click(object sender, EventArgs e)
-        {
-            SelectSetupPiece("1", "Queen");
-        }
-
-        private void picSetup2_Click(object sender, EventArgs e)
-        {
-            SelectSetupPiece("2", "Rook");
-        }
-
-        private void picSetup3_Click(object sender, EventArgs e)
-        {
-            SelectSetupPiece("3", "Knight");
-        }
-
         private void ShowSetupPieces()
         {
             // Show the 3 setup piece images for the current setup side
@@ -508,9 +461,9 @@ namespace TicTacChess
                 btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
                 btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
 
-                picSetup1.BackgroundImage = sqImage;
-                picSetup2.BackgroundImage = srImage;
-                picSetup3.BackgroundImage = snImage;
+                picSetup1.BackgroundImage = pieceImages.GetPieceImage("SQ");
+                picSetup2.BackgroundImage = pieceImages.GetPieceImage("SR");
+                picSetup3.BackgroundImage = pieceImages.GetPieceImage("SN");
 
                 picSetup1.Visible = !silverPiece1Used;
                 picSetup2.Visible = !silverPiece2Used;
@@ -521,9 +474,9 @@ namespace TicTacChess
                 btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOff;
                 btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOn;
 
-                picSetup1.BackgroundImage = gqImage;
-                picSetup2.BackgroundImage = grImage;
-                picSetup3.BackgroundImage = gnImage;
+                picSetup1.BackgroundImage = pieceImages.GetPieceImage("GQ");
+                picSetup2.BackgroundImage = pieceImages.GetPieceImage("GR");
+                picSetup3.BackgroundImage = pieceImages.GetPieceImage("GN");
 
                 picSetup1.Visible = !goldPiece1Used;
                 picSetup2.Visible = !goldPiece2Used;
@@ -565,40 +518,22 @@ namespace TicTacChess
                 picSetup3.Visible = false;
         }
 
-        private Image GetSetupGlowImage(string setupSlot)
+        private void picSetup1_Click(object sender, EventArgs e)
         {
-            if (gameManager.PlacingWhite)
-            {
-                if (setupSlot == "1") return sqGlow;
-                if (setupSlot == "2") return srGlow;
-                if (setupSlot == "3") return snGlow;
-            }
-            else
-            {
-                if (setupSlot == "1") return gqGlow;
-                if (setupSlot == "2") return grGlow;
-                if (setupSlot == "3") return gnGlow;
-            }
-
-            return null;
+            // Select the first setup piece
+            SelectSetupPiece("1", "Queen");
         }
 
-        private Image GetSetupNormalImage(string setupSlot)
+        private void picSetup2_Click(object sender, EventArgs e)
         {
-            if (gameManager.PlacingWhite)
-            {
-                if (setupSlot == "1") return sqImage;
-                if (setupSlot == "2") return srImage;
-                if (setupSlot == "3") return snImage;
-            }
-            else
-            {
-                if (setupSlot == "1") return gqImage;
-                if (setupSlot == "2") return grImage;
-                if (setupSlot == "3") return gnImage;
-            }
+            // Select the second setup piece
+            SelectSetupPiece("2", "Rook");
+        }
 
-            return null;
+        private void picSetup3_Click(object sender, EventArgs e)
+        {
+            // Select the third setup piece
+            SelectSetupPiece("3", "Knight");
         }
 
 
@@ -608,6 +543,7 @@ namespace TicTacChess
 
         private void BoardCell_MouseEnter(object sender, EventArgs e)
         {
+            // Show glow image when the mouse enters a board piece
             Button btn = (Button)sender;
 
             string[] parts = btn.Tag.ToString().Split(',');
@@ -618,12 +554,13 @@ namespace TicTacChess
 
             if (piece != "")
             {
-                btn.BackgroundImage = GetGlowImage(piece);
+                btn.BackgroundImage = pieceImages.GetGlowImage(piece);
             }
         }
 
         private void BoardCell_MouseLeave(object sender, EventArgs e)
         {
+            // Restore normal image when the mouse leaves a board piece
             Button btn = (Button)sender;
 
             string[] parts = btn.Tag.ToString().Split(',');
@@ -634,7 +571,7 @@ namespace TicTacChess
 
             if (piece != "")
             {
-                btn.BackgroundImage = GetPieceImage(piece);
+                btn.BackgroundImage = pieceImages.GetPieceImage(piece);
             }
         }
 
@@ -645,26 +582,28 @@ namespace TicTacChess
 
         private void SetupPiece_MouseEnter(object sender, EventArgs e)
         {
+            // Show glow image when hovering over a setup piece
             PictureBox pic = (PictureBox)sender;
 
             if (!pic.Visible)
                 return;
 
-            if (pic == picSetup1) pic.BackgroundImage = GetSetupGlowImage("1");
-            if (pic == picSetup2) pic.BackgroundImage = GetSetupGlowImage("2");
-            if (pic == picSetup3) pic.BackgroundImage = GetSetupGlowImage("3");
+            if (pic == picSetup1) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "1");
+            if (pic == picSetup2) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "2");
+            if (pic == picSetup3) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "3");
         }
 
         private void SetupPiece_MouseLeave(object sender, EventArgs e)
         {
+            // Restore normal image when leaving a setup piece
             PictureBox pic = (PictureBox)sender;
 
             if (!pic.Visible)
                 return;
 
-            if (pic == picSetup1) pic.BackgroundImage = GetSetupNormalImage("1");
-            if (pic == picSetup2) pic.BackgroundImage = GetSetupNormalImage("2");
-            if (pic == picSetup3) pic.BackgroundImage = GetSetupNormalImage("3");
+            if (pic == picSetup1) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "1");
+            if (pic == picSetup2) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "2");
+            if (pic == picSetup3) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "3");
         }
 
 
@@ -708,17 +647,44 @@ namespace TicTacChess
 
         private void btnRestartZy_MouseEnter(object sender, EventArgs e)
         {
+            // Show hover image for restart button
             btnRestartZy.BackgroundImage = Properties.Resources.resetBtnHover;
         }
 
         private void btnRestartZy_MouseLeave(object sender, EventArgs e)
         {
+            // Restore normal image for restart button
             btnRestartZy.BackgroundImage = Properties.Resources.resetBtn;
         }
 
 
         // =========================
-        // Turn lamp method
+        // Setup side switch button methods
+        // =========================
+
+        private void btnGoldSetupZy_Click(object sender, EventArgs e)
+        {
+            // Switch setup side to gold
+            btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOn;
+            btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOff;
+
+            gameManager.PlacingWhite = false;
+            ShowSetupPieces();
+        }
+
+        private void btnSilverSetupZy_Click(object sender, EventArgs e)
+        {
+            // Switch setup side to silver
+            btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
+            btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
+
+            gameManager.PlacingWhite = true;
+            ShowSetupPieces();
+        }
+
+
+        // =========================
+        // Turn lamp methods
         // =========================
 
         private void UpdateTurnLamps()
@@ -751,26 +717,24 @@ namespace TicTacChess
 
         private void videoHideTimerZy_Tick(object sender, EventArgs e)
         {
+            // Hide the win video after the timer ends
             videoHideTimerZy.Stop();
             videoPlayerZy.Visible = false;
         }
 
-        private void btnGoldSetupZy_Click(object sender, EventArgs e)
+        private void OnArduinoReady()
         {
-            btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOn;
-            btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOff;
-
-            gameManager.PlacingWhite = false;
-            ShowSetupPieces();
+            if (useRobot)
+            {
+                robot.ArduinoStepReady();
+            }
         }
-
-        private void btnSilverSetupZy_Click(object sender, EventArgs e)
+        private void btnZeroRobotZy_Click(object sender, EventArgs e)
         {
-            btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
-            btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
-
-            gameManager.PlacingWhite = true;
-            ShowSetupPieces();
+            if (useRobot)
+            {
+                arduino.SendCommand("ZS:0");
+            }
         }
     }
 }

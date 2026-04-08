@@ -20,6 +20,11 @@
                 return IsValidKnightMove(fromRow, fromCol, toRow, toCol);
             }
 
+            if (piece == "SK" || piece == "GK")
+            {
+                return IsValidKingMove(fromRow, fromCol, toRow, toCol);
+            }
+
             return false;
         }
 
@@ -157,6 +162,16 @@
             int colDiff = Math.Abs(toCol - fromCol);
 
             return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
+        }
+
+        // King: can move 1 square in any direction
+        private bool IsValidKingMove(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            int rowDiff = Math.Abs(toRow - fromRow);
+            int colDiff = Math.Abs(toCol - fromCol);
+
+            // max 1 step in any direction
+            return rowDiff <= 1 && colDiff <= 1;
         }
     }
 }
