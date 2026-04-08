@@ -93,9 +93,9 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gpK {
+        internal static System.Drawing.Bitmap gpKN {
             get {
-                object obj = ResourceManager.GetObject("gpK", resourceCulture);
+                object obj = ResourceManager.GetObject("gpKN", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gpKH {
+        internal static System.Drawing.Bitmap gpKNH {
             get {
-                object obj = ResourceManager.GetObject("gpKH", resourceCulture);
+                object obj = ResourceManager.GetObject("gpKNH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +223,9 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap spK {
+        internal static System.Drawing.Bitmap spKN {
             get {
-                object obj = ResourceManager.GetObject("spK", resourceCulture);
+                object obj = ResourceManager.GetObject("spKN", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,9 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap spKH {
+        internal static System.Drawing.Bitmap spKNH {
             get {
-                object obj = ResourceManager.GetObject("spKH", resourceCulture);
+                object obj = ResourceManager.GetObject("spKNH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -62,11 +62,13 @@ namespace TicTacChess
         private bool silverPiece1Used = false;
         private bool silverPiece2Used = false;
         private bool silverPiece3Used = false;
+        private bool silverPiece4Used = false;
 
         // Tracks which gold setup pieces are already used
         private bool goldPiece1Used = false;
         private bool goldPiece2Used = false;
         private bool goldPiece3Used = false;
+        private bool goldPiece4Used = false;
 
 
         // =========================
@@ -176,11 +178,13 @@ namespace TicTacChess
 
                 if (piece == "SQ") silverPiece1Used = true;
                 if (piece == "SR") silverPiece2Used = true;
-                if (piece == "SN") silverPiece3Used = true;
+                if (piece == "SKN") silverPiece3Used = true;
+                if (piece == "SK") silverPiece4Used = true;
 
                 if (piece == "GQ") goldPiece1Used = true;
                 if (piece == "GR") goldPiece2Used = true;
-                if (piece == "GN") goldPiece3Used = true;
+                if (piece == "GKN") goldPiece3Used = true;
+                if (piece == "GK") goldPiece4Used = true;
 
                 gameManager.PlaceSetupPiece(row, col);
                 ShowSetupPieces();
@@ -464,12 +468,13 @@ namespace TicTacChess
 
                 picSetup1.BackgroundImage = pieceImages.GetPieceImage("SQ");
                 picSetup2.BackgroundImage = pieceImages.GetPieceImage("SR");
-                picSetup3.BackgroundImage = pieceImages.GetPieceImage("SN");
+                picSetup3.BackgroundImage = pieceImages.GetPieceImage("SKN");
                 picSetup4.BackgroundImage = pieceImages.GetPieceImage("SK");
 
                 picSetup1.Visible = !silverPiece1Used;
                 picSetup2.Visible = !silverPiece2Used;
                 picSetup3.Visible = !silverPiece3Used;
+                picSetup4.Visible = !silverPiece4Used;
             }
             else
             {
@@ -478,12 +483,13 @@ namespace TicTacChess
 
                 picSetup1.BackgroundImage = pieceImages.GetPieceImage("GQ");
                 picSetup2.BackgroundImage = pieceImages.GetPieceImage("GR");
-                picSetup3.BackgroundImage = pieceImages.GetPieceImage("GN");
+                picSetup3.BackgroundImage = pieceImages.GetPieceImage("GKN");
                 picSetup4.BackgroundImage = pieceImages.GetPieceImage("GK");
 
                 picSetup1.Visible = !goldPiece1Used;
                 picSetup2.Visible = !goldPiece2Used;
                 picSetup3.Visible = !goldPiece3Used;
+                picSetup4.Visible = !goldPiece4Used;
             }
 
             selectedSetupPiece = "";
@@ -496,14 +502,14 @@ namespace TicTacChess
             {
                 if (selectedSetupPiece == "1") return "SQ";
                 if (selectedSetupPiece == "2") return "SR";
-                if (selectedSetupPiece == "3") return "SN";
+                if (selectedSetupPiece == "3") return "SKN";
                 if (selectedSetupPiece == "4") return "SK";
             }
             else
             {
                 if (selectedSetupPiece == "1") return "GQ";
                 if (selectedSetupPiece == "2") return "GR";
-                if (selectedSetupPiece == "3") return "GN";
+                if (selectedSetupPiece == "3") return "GKN";
                 if (selectedSetupPiece == "4") return "GK";
             }
 
@@ -521,6 +527,9 @@ namespace TicTacChess
 
             if (selectedSetupPiece == "3")
                 picSetup3.Visible = false;
+
+            if (selectedSetupPiece == "4")
+                picSetup4.Visible = false;
         }
 
         private void picSetup1_Click(object sender, EventArgs e)
@@ -630,10 +639,12 @@ namespace TicTacChess
             silverPiece1Used = false;
             silverPiece2Used = false;
             silverPiece3Used = false;
+            silverPiece4Used = false;
 
             goldPiece1Used = false;
             goldPiece2Used = false;
             goldPiece3Used = false;
+            goldPiece4Used = false;
 
             UpdateTurnLamps();
 

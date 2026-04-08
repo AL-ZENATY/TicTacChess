@@ -23,8 +23,8 @@
         public string CurrentPlayer { get; private set; }
 
         // setup order for each side
-        private string[] whiteToPlace = { "SQ", "SR", "SN", "SK" };
-        private string[] blackToPlace = { "GQ", "GR", "GN", "GK" };
+        private string[] whiteToPlace = { "SQ", "SR", "SKN", "SK" };
+        private string[] blackToPlace = { "GQ", "GR", "GKN", "GK" };
 
         public GameManager(Board board)
         {
@@ -97,15 +97,15 @@
             }
 
             // only end setup when BOTH sides are finished
-            if (WhiteIndex >= whiteToPlace.Length && BlackIndex >= blackToPlace.Length)
+            if (WhiteIndex >= 3 && BlackIndex >= 3)
             {
                 SetupPhase = false;
             }
-            else if (WhiteIndex >= whiteToPlace.Length)
+            else if (WhiteIndex >= 3)
             {
                 PlacingWhite = false;
             }
-            else if (BlackIndex >= blackToPlace.Length)
+            else if (BlackIndex >= 3)
             {
                 PlacingWhite = true;
             }

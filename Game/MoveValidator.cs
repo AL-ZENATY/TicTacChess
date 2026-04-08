@@ -15,7 +15,7 @@
                 return IsValidRookMove(board, fromRow, fromCol, toRow, toCol);
             }
 
-            if (piece == "SN" || piece == "GN")
+            if (piece == "SKN" || piece == "GKN")
             {
                 return IsValidKnightMove(fromRow, fromCol, toRow, toCol);
             }
@@ -37,8 +37,10 @@
             if (piece == "SR" || piece == "GR")
                 return "Invalid Rook move.";
 
-            if (piece == "SN" || piece == "GN")
+            if (piece == "SKN" || piece == "GKN")
                 return "Invalid Knight move.";
+            if (piece == "SK" || piece == "GK")
+                return "Invalid King move.";
 
             return "Invalid move.";
         }

@@ -391,7 +391,7 @@ namespace TicTacChess
             // picSetup3
             // 
             picSetup3.BackColor = Color.Transparent;
-            picSetup3.BackgroundImage = Properties.Resources.spK;
+            picSetup3.BackgroundImage = Properties.Resources.spKN;
             picSetup3.BackgroundImageLayout = ImageLayout.Zoom;
             picSetup3.Cursor = Cursors.Hand;
             picSetup3.Location = new Point(937, 502);
@@ -509,7 +509,6 @@ namespace TicTacChess
             // picSetup4
             // 
             picSetup4.BackColor = Color.Transparent;
-            picSetup4.BackgroundImage = Properties.Resources.spK;
             picSetup4.BackgroundImageLayout = ImageLayout.Zoom;
             picSetup4.Cursor = Cursors.Hand;
             picSetup4.Location = new Point(854, 299);

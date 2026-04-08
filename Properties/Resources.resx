@@ -127,6 +127,12 @@
   <data name="tagSilvershort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\tagSilvershort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="tagGoldshort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\tagGoldshort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zeroOn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\zeroOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="tagSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\tagSilver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -139,20 +145,17 @@
   <data name="lightOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\lightOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="spKH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\spKH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\background.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="zeroSign" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\zeroSign.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="spKNH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\spKNH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lightOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\lightOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gpQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\gpQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tagGold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\tagGold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,8 +169,8 @@
   <data name="tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\tag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tagGoldshort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\tagGoldshort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\highlight.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="spR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\spR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,17 +187,14 @@
   <data name="spRH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\spRH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gpK" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\gpK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="spKN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\spKN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="resetBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\resetBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="spK" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\spK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\highlight.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gpQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\gpQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="zeroOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\zeroOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,13 +202,13 @@
   <data name="silverOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\silverOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gpKH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\gpKH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="spQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\spQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="zeroOn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\zeroOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gpKN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\gpKN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gpKNH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\gpKNH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
