@@ -23,8 +23,9 @@
         public string CurrentPlayer { get; private set; }
 
         // setup order for each side
-        private string[] whiteToPlace = { "SQ", "SR", "SKN", "SK" };
-        private string[] blackToPlace = { "GQ", "GR", "GKN", "GK" };
+        private string[] whiteToPlace = { "SQ", "SR", "SKN", "SK", "SW" };
+        private string[] blackToPlace = { "GQ", "GR", "GKN", "GK", "GW" };
+        public int MaxSetupPieces = 3;
 
         public GameManager(Board board)
         {
@@ -84,8 +85,6 @@
 
         public void PlaceSetupPiece(int row, int col)
         {
-            // place the next setup piece on the board
-            string piece = GetNextSetupPiece();
 
             if (PlacingWhite)
             {
@@ -96,40 +95,67 @@
                 BlackIndex++;
             }
 
-            // only end setup when BOTH sides are finished
+            // finish only when ALL 5 are placed
             if (WhiteIndex >= 3 && BlackIndex >= 3)
             {
                 SetupPhase = false;
             }
-            else if (WhiteIndex >= 3)
+            else
             {
-                PlacingWhite = false;
-            }
-            else if (BlackIndex >= 3)
-            {
-                PlacingWhite = true;
+                //  AUTO SWITCH AFTER 3 PIECES
+                if (PlacingWhite && WhiteIndex >= 3 && BlackIndex < 3)
+                {
+                    PlacingWhite = false;
+                }
+                else if (!PlacingWhite && BlackIndex >= 3 && WhiteIndex < 3)
+                {
+                    PlacingWhite = true;
+                }
+
+                //  AFTER BOTH DID 3 → continue remaining pieces normally
+                else if (WhiteIndex >= 3)
+                {
+                    PlacingWhite = false;
+                }
+                else if (BlackIndex >= 3)
+                {
+                    PlacingWhite = true;
+                }
             }
         }
 
         public bool IsSetupFinished()
         {
-            return !SetupPhase;
+            return WhiteIndex >= 3 && BlackIndex >= 3;
         }
 
         public bool IsWhiteSetupFinished()
         {
-            return !PlacingWhite && WhiteIndex >= whiteToPlace.Length;
+            return WhiteIndex >= 5;
         }
 
         public void MovePiece(int toRow, int toCol)
         {
-            // move the selected piece to the new square
             string selectedPiece = Board.Squares[SelectedRow, SelectedCol];
+            string targetPiece = Board.Squares[toRow, toCol];
 
-            Board.Squares[toRow, toCol] = selectedPiece;
-            Board.Squares[SelectedRow, SelectedCol] = "";
+            // Wizard swap logic
+            if ((selectedPiece == "SW" || selectedPiece == "GW") &&
+                targetPiece != "" &&
+                targetPiece.StartsWith(CurrentPlayer))
+            {
+                // swap positions
+                Board.Squares[toRow, toCol] = selectedPiece;
+                Board.Squares[SelectedRow, SelectedCol] = targetPiece;
+            }
+            else
+            {
+                // normal move
+                Board.Squares[toRow, toCol] = selectedPiece;
+                Board.Squares[SelectedRow, SelectedCol] = "";
+            }
 
-            // after the first move, win checking becomes active
+            // activate win checking after first move
             WinCheckActive = true;
         }
 

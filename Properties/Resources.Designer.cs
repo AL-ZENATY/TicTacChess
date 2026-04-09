@@ -73,6 +73,26 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap extraBtn {
+            get {
+                object obj = ResourceManager.GetObject("extraBtn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap extraBtnH {
+            get {
+                object obj = ResourceManager.GetObject("extraBtnH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap goldOff {
             get {
                 object obj = ResourceManager.GetObject("goldOff", resourceCulture);
@@ -86,6 +106,26 @@ namespace TicTacChess.Properties {
         internal static System.Drawing.Bitmap goldOn {
             get {
                 object obj = ResourceManager.GetObject("goldOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gpK {
+            get {
+                object obj = ResourceManager.GetObject("gpK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gpKH {
+            get {
+                object obj = ResourceManager.GetObject("gpKH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -146,6 +186,26 @@ namespace TicTacChess.Properties {
         internal static System.Drawing.Bitmap gpRH {
             get {
                 object obj = ResourceManager.GetObject("gpRH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gpW {
+            get {
+                object obj = ResourceManager.GetObject("gpW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gpWH {
+            get {
+                object obj = ResourceManager.GetObject("gpWH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,6 +283,26 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap spK {
+            get {
+                object obj = ResourceManager.GetObject("spK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap spKH {
+            get {
+                object obj = ResourceManager.GetObject("spKH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap spKN {
             get {
                 object obj = ResourceManager.GetObject("spKN", resourceCulture);
@@ -283,6 +363,26 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap spW {
+            get {
+                object obj = ResourceManager.GetObject("spW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap spWH {
+            get {
+                object obj = ResourceManager.GetObject("spWH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tag {
             get {
                 object obj = ResourceManager.GetObject("tag", resourceCulture);
@@ -333,6 +433,16 @@ namespace TicTacChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap zeroHover {
+            get {
+                object obj = ResourceManager.GetObject("zeroHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap zeroOff {
             get {
                 object obj = ResourceManager.GetObject("zeroOff", resourceCulture);
@@ -346,16 +456,6 @@ namespace TicTacChess.Properties {
         internal static System.Drawing.Bitmap zeroOn {
             get {
                 object obj = ResourceManager.GetObject("zeroOn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap zeroOn1 {
-            get {
-                object obj = ResourceManager.GetObject("zeroOn1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

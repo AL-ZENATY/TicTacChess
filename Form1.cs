@@ -1,4 +1,4 @@
-using TicTacChess.Game;
+﻿using TicTacChess.Game;
 using System.Drawing.Text;
 
 namespace TicTacChess
@@ -57,18 +57,21 @@ namespace TicTacChess
 
         // Stores which setup piece is currently selected
         private string selectedSetupPiece = "";
+        private bool showExtraPieces = false; // false = Q,R,KN | true = K,W
 
         // Tracks which silver setup pieces are already used
         private bool silverPiece1Used = false;
         private bool silverPiece2Used = false;
         private bool silverPiece3Used = false;
         private bool silverPiece4Used = false;
+        private bool silverPiece5Used = false;
 
         // Tracks which gold setup pieces are already used
         private bool goldPiece1Used = false;
         private bool goldPiece2Used = false;
         private bool goldPiece3Used = false;
         private bool goldPiece4Used = false;
+        private bool goldPiece5Used = false;
 
 
         // =========================
@@ -107,6 +110,17 @@ namespace TicTacChess
             customFonts.AddFontFile("Fonts/SliterD.ttf");
             gameFont = new Font(customFonts.Families[0], 15);
             lblStatusZy.Font = gameFont;
+
+            btnZeroRobotZy.FlatStyle = FlatStyle.Flat;
+            btnZeroRobotZy.FlatAppearance.BorderSize = 0;
+
+            btnZeroRobotZy.BackColor = Color.Transparent;
+            btnZeroRobotZy.UseVisualStyleBackColor = false;
+
+            btnZeroRobotZy.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnZeroRobotZy.FlatAppearance.MouseDownBackColor = Color.Transparent;
+
+            btnZeroRobotZy.Parent = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -159,7 +173,7 @@ namespace TicTacChess
                     return;
                 }
 
-                // Get the next piece, place it, and show it on the button
+                // Player must first choose a setup piece
                 if (selectedSetupPiece == "")
                 {
                     lblStatusZy.Text = status.ChooseSetupPieceMessage();
@@ -180,13 +194,30 @@ namespace TicTacChess
                 if (piece == "SR") silverPiece2Used = true;
                 if (piece == "SKN") silverPiece3Used = true;
                 if (piece == "SK") silverPiece4Used = true;
+                if (piece == "SW") silverPiece5Used = true;
 
                 if (piece == "GQ") goldPiece1Used = true;
                 if (piece == "GR") goldPiece2Used = true;
                 if (piece == "GKN") goldPiece3Used = true;
                 if (piece == "GK") goldPiece4Used = true;
+                if (piece == "GW") goldPiece5Used = true;
 
                 gameManager.PlaceSetupPiece(row, col);
+
+                // AUTO SWITCH: if extra pieces done → go back to 3 pieces
+                if (showExtraPieces)
+                {
+                    if (gameManager.PlacingWhite && silverPiece4Used && silverPiece5Used)
+                    {
+                        showExtraPieces = false;
+                    }
+
+                    if (!gameManager.PlacingWhite && goldPiece4Used && goldPiece5Used)
+                    {
+                        showExtraPieces = false;
+                    }
+                }
+
                 ShowSetupPieces();
                 ClearHighlights();
 
@@ -196,7 +227,19 @@ namespace TicTacChess
                     ClearHighlights();
                     UpdateTurnLamps();
                     lblStatusZy.Text = status.SetupCompleteMessage();
+
+                    // disable setup UI
+                    btnTogglePiecesZy.Enabled = false;
+                    btnGoldSetupZy.Enabled = false;
+                    btnSilverSetupZy.Enabled = false;
+
+                    picSetup1.Visible = false;
+                    picSetup2.Visible = false;
+                    picSetup3.Visible = false;
+                    picSetup4.Visible = false;
+                    picSetup5.Visible = false;
                 }
+
                 else if (gameManager.IsWhiteSetupFinished() && gameManager.BlackIndex == 0)
                 {
                     ShowSetupPieces();
@@ -211,8 +254,10 @@ namespace TicTacChess
                 {
                     lblStatusZy.Text = status.PiecePlacedMessage(piece);
                 }
+
                 return;
             }
+
 
             // Game phase: no piece selected yet
             if (!gameManager.HasSelectedPiece())
@@ -238,24 +283,29 @@ namespace TicTacChess
             }
             else
             {
-                // If player clicks another of their own pieces, switch selection
+                // Normal selection switching
                 string clickedPiece = board.Squares[row, col];
+                string selectedPiece = board.Squares[gameManager.SelectedRow, gameManager.SelectedCol];
 
+                // allow wizard to swap instead
                 if (clickedPiece != "" && clickedPiece.StartsWith(gameManager.CurrentPlayer))
                 {
-                    SelectBoardPiece(row, col);
-                    return;
+                    if (!(selectedPiece == "SW" || selectedPiece == "GW"))
+                    {
+                        SelectBoardPiece(row, col);
+                        return;
+                    }
                 }
 
-                // Pieces cannot move onto occupied squares
-                if (board.Squares[row, col] != "")
+                // Normal game rule: occupied squares are not allowed here
+                string targetPiece = board.Squares[row, col];
+
+                // Only block enemy pieces (no capturing)
+                if (targetPiece != "" && !targetPiece.StartsWith(gameManager.CurrentPlayer))
                 {
                     lblStatusZy.Text = status.SquareOccupiedMessage();
                     return;
                 }
-
-                // Read the currently selected piece
-                string selectedPiece = board.Squares[gameManager.SelectedRow, gameManager.SelectedCol];
 
                 // Check if the move follows the piece rules
                 if (!moveValidator.IsValidMove(board, selectedPiece, gameManager.SelectedRow, gameManager.SelectedCol, row, col))
@@ -264,7 +314,8 @@ namespace TicTacChess
                     return;
                 }
 
-                // Move the piece in the board data
+
+                // Move is valid - update the board data
                 gameManager.MovePiece(row, col);
 
                 if (useRobot)
@@ -275,13 +326,28 @@ namespace TicTacChess
                 ClearHighlights();
 
                 // Show the moved piece on the new button
-                btn.BackgroundImage = pieceImages.GetPieceImage(selectedPiece);
-                btn.BackgroundImageLayout = ImageLayout.Zoom;
-                btn.Text = "";
-
-                // Clear the old button text
+                // update BOTH buttons correctly
+                Button newButton = GetButtonByPosition(row, col);
                 Button oldButton = GetButtonByPosition(gameManager.SelectedRow, gameManager.SelectedCol);
-                oldButton.BackgroundImage = null;
+
+                string newPiece = board.Squares[row, col];
+                string oldPiece = board.Squares[gameManager.SelectedRow, gameManager.SelectedCol];
+
+                // new position
+                newButton.BackgroundImage = pieceImages.GetPieceImage(newPiece);
+                newButton.BackgroundImageLayout = ImageLayout.Zoom;
+                newButton.Text = "";
+
+                // old position
+                if (oldPiece != "")
+                {
+                    oldButton.BackgroundImage = pieceImages.GetPieceImage(oldPiece);
+                }
+                else
+                {
+                    oldButton.BackgroundImage = null;
+                }
+
                 oldButton.Text = "";
 
                 // Change turn after a valid move
@@ -313,7 +379,6 @@ namespace TicTacChess
             }
         }
 
-
         // =========================
         // Board helper methods
         // =========================
@@ -337,6 +402,7 @@ namespace TicTacChess
 
         private void SelectBoardPiece(int row, int col)
         {
+
             // Select a board piece and show its legal moves
             gameManager.SelectPiece(row, col);
             ClearHighlights();
@@ -455,41 +521,76 @@ namespace TicTacChess
 
         private void ShowSetupPieces()
         {
-            // Show the 3 setup piece images for the current setup side
+            // Show the setup piece images for the current setup side
             picSetup1.Visible = true;
             picSetup2.Visible = true;
             picSetup3.Visible = true;
             picSetup4.Visible = true;
+            picSetup5.Visible = true;
 
             if (gameManager.PlacingWhite)
             {
                 btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
                 btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
 
-                picSetup1.BackgroundImage = pieceImages.GetPieceImage("SQ");
-                picSetup2.BackgroundImage = pieceImages.GetPieceImage("SR");
-                picSetup3.BackgroundImage = pieceImages.GetPieceImage("SKN");
-                picSetup4.BackgroundImage = pieceImages.GetPieceImage("SK");
+                if (!showExtraPieces)
+                {
+                    // show 3 pieces
+                    picSetup1.BackgroundImage = pieceImages.GetPieceImage("SQ");
+                    picSetup2.BackgroundImage = pieceImages.GetPieceImage("SR");
+                    picSetup3.BackgroundImage = pieceImages.GetPieceImage("SKN");
 
-                picSetup1.Visible = !silverPiece1Used;
-                picSetup2.Visible = !silverPiece2Used;
-                picSetup3.Visible = !silverPiece3Used;
-                picSetup4.Visible = !silverPiece4Used;
+                    picSetup1.Visible = !silverPiece1Used;
+                    picSetup2.Visible = !silverPiece2Used;
+                    picSetup3.Visible = !silverPiece3Used;
+
+                    picSetup4.Visible = false;
+                    picSetup5.Visible = false;
+                }
+                else
+                {
+                    // show 2 pieces
+                    picSetup4.BackgroundImage = pieceImages.GetPieceImage("SK");
+                    picSetup5.BackgroundImage = pieceImages.GetPieceImage("SW");
+
+                    picSetup4.Visible = !silverPiece4Used;
+                    picSetup5.Visible = !silverPiece5Used;
+
+                    picSetup1.Visible = false;
+                    picSetup2.Visible = false;
+                    picSetup3.Visible = false;
+                }
             }
             else
             {
                 btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOff;
                 btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOn;
 
-                picSetup1.BackgroundImage = pieceImages.GetPieceImage("GQ");
-                picSetup2.BackgroundImage = pieceImages.GetPieceImage("GR");
-                picSetup3.BackgroundImage = pieceImages.GetPieceImage("GKN");
-                picSetup4.BackgroundImage = pieceImages.GetPieceImage("GK");
+                if (!showExtraPieces)
+                {
+                    picSetup1.BackgroundImage = pieceImages.GetPieceImage("GQ");
+                    picSetup2.BackgroundImage = pieceImages.GetPieceImage("GR");
+                    picSetup3.BackgroundImage = pieceImages.GetPieceImage("GKN");
 
-                picSetup1.Visible = !goldPiece1Used;
-                picSetup2.Visible = !goldPiece2Used;
-                picSetup3.Visible = !goldPiece3Used;
-                picSetup4.Visible = !goldPiece4Used;
+                    picSetup1.Visible = !goldPiece1Used;
+                    picSetup2.Visible = !goldPiece2Used;
+                    picSetup3.Visible = !goldPiece3Used;
+
+                    picSetup4.Visible = false;
+                    picSetup5.Visible = false;
+                }
+                else
+                {
+                    picSetup4.BackgroundImage = pieceImages.GetPieceImage("GK");
+                    picSetup5.BackgroundImage = pieceImages.GetPieceImage("GW");
+
+                    picSetup4.Visible = !goldPiece4Used;
+                    picSetup5.Visible = !goldPiece5Used;
+
+                    picSetup1.Visible = false;
+                    picSetup2.Visible = false;
+                    picSetup3.Visible = false;
+                }
             }
 
             selectedSetupPiece = "";
@@ -504,6 +605,7 @@ namespace TicTacChess
                 if (selectedSetupPiece == "2") return "SR";
                 if (selectedSetupPiece == "3") return "SKN";
                 if (selectedSetupPiece == "4") return "SK";
+                if (selectedSetupPiece == "5") return "SW";
             }
             else
             {
@@ -511,6 +613,7 @@ namespace TicTacChess
                 if (selectedSetupPiece == "2") return "GR";
                 if (selectedSetupPiece == "3") return "GKN";
                 if (selectedSetupPiece == "4") return "GK";
+                if (selectedSetupPiece == "5") return "GW";
             }
 
             return "";
@@ -530,6 +633,9 @@ namespace TicTacChess
 
             if (selectedSetupPiece == "4")
                 picSetup4.Visible = false;
+
+            if (selectedSetupPiece == "5")
+                picSetup5.Visible = false;
         }
 
         private void picSetup1_Click(object sender, EventArgs e)
@@ -552,8 +658,14 @@ namespace TicTacChess
 
         private void picSetup4_Click(object sender, EventArgs e)
         {
-            // Select the fourth setup piece (King)
+            // Select the fourth setup piece
             SelectSetupPiece("4", "King");
+        }
+
+        private void picSetup5_Click(object sender, EventArgs e)
+        {
+            // Select the fifth setup piece
+            SelectSetupPiece("5", "Wizard");
         }
 
 
@@ -611,6 +723,8 @@ namespace TicTacChess
             if (pic == picSetup1) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "1");
             if (pic == picSetup2) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "2");
             if (pic == picSetup3) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "3");
+            if (pic == picSetup4) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "4");
+            if (pic == picSetup5) pic.BackgroundImage = pieceImages.GetSetupGlowImage(gameManager.PlacingWhite, "5");
         }
 
         private void SetupPiece_MouseLeave(object sender, EventArgs e)
@@ -624,6 +738,8 @@ namespace TicTacChess
             if (pic == picSetup1) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "1");
             if (pic == picSetup2) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "2");
             if (pic == picSetup3) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "3");
+            if (pic == picSetup4) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "4");
+            if (pic == picSetup5) pic.BackgroundImage = pieceImages.GetSetupNormalImage(gameManager.PlacingWhite, "5");
         }
 
 
@@ -640,11 +756,13 @@ namespace TicTacChess
             silverPiece2Used = false;
             silverPiece3Used = false;
             silverPiece4Used = false;
+            silverPiece5Used = false;
 
             goldPiece1Used = false;
             goldPiece2Used = false;
             goldPiece3Used = false;
             goldPiece4Used = false;
+            goldPiece5Used = false;
 
             UpdateTurnLamps();
 
@@ -665,6 +783,18 @@ namespace TicTacChess
             btnSilverSetupZy.BackgroundImage = Properties.Resources.silverOn;
             btnGoldSetupZy.BackgroundImage = Properties.Resources.goldOff;
             gameManager.PlacingWhite = true;
+
+            // re-enable setup UI
+            btnTogglePiecesZy.Enabled = true;
+            btnGoldSetupZy.Enabled = true;
+            btnSilverSetupZy.Enabled = true;
+
+            // show setup pieces again
+            picSetup1.Visible = true;
+            picSetup2.Visible = true;
+            picSetup3.Visible = true;
+            picSetup4.Visible = true;
+            picSetup5.Visible = true;
         }
 
         private void btnRestartZy_MouseEnter(object sender, EventArgs e)
@@ -702,6 +832,27 @@ namespace TicTacChess
 
             gameManager.PlacingWhite = true;
             ShowSetupPieces();
+        }
+
+        private void btnTogglePiecesZy_Click(object sender, EventArgs e)
+        {
+            showExtraPieces = !showExtraPieces; // switch true/false
+            btnTogglePiecesZy.Text = showExtraPieces ? "2 Pieces" : "3 Pieces";
+            gameManager.MaxSetupPieces = showExtraPieces ? 2 : 3;
+
+            btnTogglePiecesZy.BackgroundImage = Properties.Resources.extraBtn;
+            ShowSetupPieces();
+
+        }
+
+        private void btnTogglePiecesZy_MouseEnter(object sender, EventArgs e)
+        {
+            btnTogglePiecesZy.BackgroundImage = Properties.Resources.extraBtnH;
+        }
+
+        private void btnTogglePiecesZy_MouseLeave(object sender, EventArgs e)
+        {
+            btnTogglePiecesZy.BackgroundImage = Properties.Resources.extraBtn;
         }
 
 
@@ -751,12 +902,33 @@ namespace TicTacChess
                 robot.ArduinoStepReady();
             }
         }
+
         private void btnZeroRobotZy_Click(object sender, EventArgs e)
         {
             if (useRobot)
             {
                 arduino.SendCommand("ZS:0");
             }
+        }
+
+        private void btnZeroRobotZy_MouseEnter(object sender, EventArgs e)
+        {
+            btnZeroRobotZy.BackgroundImage = Properties.Resources.zeroHover;
+        }
+
+        private void btnZeroRobotZy_MouseLeave(object sender, EventArgs e)
+        {
+            btnZeroRobotZy.BackgroundImage = Properties.Resources.zeroOff;
+        }
+
+        private void btnZeroRobotZy_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnZeroRobotZy.BackgroundImage = Properties.Resources.zeroOn;
+        }
+
+        private void btnZeroRobotZy_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnZeroRobotZy.BackgroundImage = Properties.Resources.zeroOff;
         }
     }
 }

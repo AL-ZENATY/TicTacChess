@@ -25,6 +25,12 @@
                 return IsValidKingMove(fromRow, fromCol, toRow, toCol);
             }
 
+            // Wizard: can move to ANY square (including occupied)
+            if (piece == "SW" || piece == "GW")
+            {
+                return IsValidWizardMove(fromRow, fromCol, toRow, toCol);
+            }
+
             return false;
         }
 
@@ -41,6 +47,8 @@
                 return "Invalid Knight move.";
             if (piece == "SK" || piece == "GK")
                 return "Invalid King move.";
+            if (piece == "SW" || piece == "GW")
+                return "Invalid Wizard move.";
 
             return "Invalid move.";
         }
@@ -174,6 +182,16 @@
 
             // max 1 step in any direction
             return rowDiff <= 1 && colDiff <= 1;
+        }
+
+        // Wizard: can move anywhere on the board
+        private bool IsValidWizardMove(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            // cannot stay on same square
+            if (fromRow == toRow && fromCol == toCol)
+                return false;
+
+            return true;
         }
     }
 }

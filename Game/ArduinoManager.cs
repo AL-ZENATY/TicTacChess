@@ -35,7 +35,6 @@ namespace TicTacChess
             if (port.IsOpen)
             {
                 port.WriteLine(command);
-                MessageBox.Show("Sent: " + command);
             }
         }
 
@@ -68,7 +67,7 @@ namespace TicTacChess
 
             Console.WriteLine("Arduino: " + message);
 
-            if (message.Contains("Ready"))
+            if (message.Contains("Ready") && !message.Contains("ZS"))
             {
                 OnArduinoReady?.Invoke();
             }
